@@ -1,0 +1,78 @@
+/* discovery.css */
+
+/* Reset default browser styles */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* Set a background color and font styles */
+body {
+  font-family: Arial, sans-serif;
+  background-color: #f9f9f9;
+}
+
+/* Header styles */
+header {
+  background-color: #333;
+  color: #fff;
+  padding: 1rem;
+  text-align: center;
+}
+
+/* Main content styles */
+main {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 1rem;
+}
+
+/* Individual article styles */
+.news-article {
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2p 4px rgba(0, 0, 0, 0.1);
+  padding: 1rem;
+  margin-bottom: 1rem;
+}
+
+.news-article img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 4px;
+}
+
+.news-article h2 {
+  font-size: 1.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.news-article p {
+  font-size: 1rem;
+  color: #555;
+  line-height: 1.5;
+}
+
+.news-article a {
+  display: inline-block;
+  margin-top: 1rem;
+  color: #007bff;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+/* Footer styles */
+footer {
+  text-align: center;
+  padding: 1rem;
+  background-color: #333;
+  color: #fff
+}
+
+/* Responsive styles (optional) */
+@media screen and (max-width: 600px) {
+  .news-article {
+    padding: 0.5rem;
+  }
+}
