@@ -6,7 +6,7 @@ from PIL import Image # pillow for handling outlet image logo
 class Outlet(models.Model):
 	rss_url = models.CharField(max_length=255) # RSS url
 	name = models.CharField(max_length=255) # outlet name
-	logo = models.ImageField(default= 'default.png', upload_to='outlet_logos') # TODO setup media folder
+	logo = models.ImageField(default= 'default.png', upload_to='outlet_logos') 
 
 	def __str__(self):
 		return f'Outlet: {self.name}'
