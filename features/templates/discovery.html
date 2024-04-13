@@ -1,37 +1,36 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Newsfeed Discovery</title>
-    <!-- Include your CSS stylesheets here -->
-    <link rel="stylesheet" href="discovery.css">
-  </head>
-  <body>
-    <header>
-      <h1>Discover New Stories</h1>
-      <!-- Add any navigation or user profile links here -->
-    </header>
 
-    <main>
-      <!-- Display individual news articles or posts -->
-      <article class="news-article">
-        <img src="article-image.jpg" alt="Article Image">
-        <h2>Breaking News: Title of the Article</h2>
-        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed id nihil magni, sint vero provident esse numquam perferendis ducimus dicta adipisci iusto nam temporibus modi animi laboriosam?</p>
-        <a href="read-more.html">Read More</a>
-      </article>
+{% extends 'base.html' %}
+{% load static %}
 
-      <!-- Repeat the above structure for other articles -->
+{% block content %}
+  <link rel="stylesheet" href='{% static "css/discovery.css" %}'>
+  <title>Discovery</title>
 
-      <!-- Add pagination or infinite scroll for more articles -->
-    </main>
+  <header>
+    <h1>Today's Top Stories:</h1>
+  </header>
 
-    <footer>
-      <p>© 2024 NewsFeed App</p>
-    </footer>
+  <main>
 
-    <1-- Include your JavaScript files here -->
-      <script src="discovery.js"></script>
-  </body>
-</html>
+    {% for blurb in blurbs %}
+    <article class="news-article">
+      <div class="blurb-outlet">
+        <img src="{{ blurb.outlet.logo.url }}" alt="{{ blurb.outlet.name }} logo">
+        <a href="#">{{ blurb.outlet.name }}</a>
+        <!-- may replace with just p tag later, or ill make a view for seeing one specific outlet. leave the <a> for now -->
+      </div>
+      <h2>{{ blurb.title }}</h2>
+      <p>{{ blurb.description }}</p>
+      <a href="{{ blurb.link }}" target="_blank">Read More</a>
+      <!-- TODO: put upvote/downvote here -->
+    </article>
+    {% endfor %}
+
+  </main>
+
+  <div class="blurb-modal">
+    <!-- TODO: make this popup modal to view comments, etc -->
+  </div>
+
+  
+{% endblock %}

@@ -1,21 +1,47 @@
+{% load static %}
+
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content = "width=device-width, initial-scale=1.0">
-  <title>My Navbar</title>
-  <link rel = "stylesheet" href="base.css">
-</head>
-<body>
-  <div class="navbar">
-    <ul>
-      <li><a href="#">Home</a></li>
-      <li><a href="#">About</a></li>
-      <li><a href="#">Services</a></li>
-      <li><a href="#">Contact</a></li>
-      <!-- Add the logo here -->
-      <li><img src="path/to/your/logo.png" alt="My Logo"></li>
-    </ul>
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href='{% static "css/base.css" %}'>
+  </head>
+  <body>
+
+    <!-- TODO: maybe add a header for when on a larger screen with logo?
+      img is:
+      <img id="navlogo" src='{% static "images/newscap.png" %}' alt="Newsboy Cap Logo">
+    -->
+
+    <div class="navbar"> <!-- maybe refactor to use nav tag? not really necessary tho -->
+      <ul>
+        <li><a href="#">Home</a></li> <!-- home -->
+        <li><a href="{% url 'discovery_page' %}">Explore</a></li> <!-- discovery -->
+        <li><a href="#">Partners</a></li> <!-- partnered outlets -->
+        <li><a href="#">Profile</a></li>
+        <li><a href="#">Log Out</a></li> <!-- log out -->
+      </ul>
+    </div>
+  
+  <div id="container">
+    {% block content %}
+      <!-- other templates will be rendered here -->
+    {% endblock %}
   </div>
-</body>
+
+  <footer>
+    <p>© 2024 NewsFeed App</p>
+  </footer>
+
+  <script>
+    // add padding to container depending on dynamic navbar height
+    // (stops navbar from rendering on top of header when position fixed)
+    document.addEventListener("DOMContentLoaded", function() {
+      let navbarHeight = document.querySelector(".navbar").offsetHeight;
+      document.getElementById("container").style.paddingTop = navbarHeight + "px";
+    });
+  </script>
+
+  </body>
 </html>

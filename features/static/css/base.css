@@ -1,22 +1,40 @@
 /* base.css */
 
-/* Reset default list styles */
-ul {
-  list-style-type: none;
+body, html {
   margin: 0;
   padding: 0;
 }
 
-/* Style the navigation bar */
-.navbar a {
+/* Set a background color and font styles */
+body {
+  font-family: Arial, sans-serif;
+  background-color: #f9f9f9;
+}
+
+/* Reset default list styles */
+.navbar {
   background-color: #333;
   overflow: hidden;
+  width: 100%; /* Set navbar to full width */
+  padding-bottom: 16px;
+  padding-top: 16px;
+  /* navbar scrolls with user */
+  position: fixed;
+  top: 0; 
+}
+
+/* navbar list items */
+.navbar ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  align-items: center;
 }
 
 /* Style the navigation links */
 .navbar a {
-  float: left;
-  display: block;
+  background-color: #333;
   color: white;
   text-align: center;
   padding: 14px 16px;
@@ -30,7 +48,39 @@ ul {
 }
 
 /* Style the logo image */
-.navbar img {
-  height: 40px; /* Set your desired height */
-  margin-right: 10px; /* Add some spacing if needed */
+#navlogo {
+  height: 45px; /* Set your desired height */
+  display: inline-block;
+  vertical-align: middle;
+}
+/* WIP, i'll put it back later -Tre */
+
+/* responsive navbar stuff */
+@media screen and (max-width: 600px) {
+    .navbar {
+        padding: 10px;
+    }
+
+    #navlogo {
+        height: 30px; /* Adjust logo height for smaller screens */
+        margin-right: 10px; /* Add margin for spacing */
+    }
+
+    .navbar ul {
+        flex-direction: row; /* Display links horizontally on small screens */
+        justify-content: flex-start; /* Align links to the left side */
+        padding: 0; /* Remove default padding */
+    }
+
+    .navbar a {
+        padding: 10px; /* Adjust link padding */
+    }
+}
+
+/* Footer styles */
+footer {
+  text-align: center;
+  padding: 1rem;
+  background-color: #333;
+  color: #fff
 }

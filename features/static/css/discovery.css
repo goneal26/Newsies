@@ -7,12 +7,6 @@
   box-sizing: border-box;
 }
 
-/* Set a background color and font styles */
-body {
-  font-family: Arial, sans-serif;
-  background-color: #f9f9f9;
-}
-
 /* Header styles */
 header {
   background-color: #333;
@@ -62,17 +56,35 @@ main {
   font-weight: bold;
 }
 
-/* Footer styles */
-footer {
-  text-align: center;
-  padding: 1rem;
-  background-color: #333;
-  color: #fff
-}
-
 /* Responsive styles (optional) */
 @media screen and (max-width: 600px) {
   .news-article {
     padding: 0.5rem;
   }
 }
+
+.blurb-outlet {
+  display: flex;
+  align-items: center;
+}
+
+.blurb-outlet img {
+  max-width: 75px;
+  max-height: 75px;
+}
+
+.blurb-outlet a {
+  color: #555;
+  text-decoration: underline;
+  font-size: 1.5rem;
+  margin-top: 0;
+  margin-left: 0.5rem;
+}
+
+.blurb-outlet a, .blurb-outlet img {
+  display: inline-block;
+}
+
+
+
+/* TODO: add hover effects to <a> tags */

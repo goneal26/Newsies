@@ -16,7 +16,18 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
+from features import views as feature_views
+from django.conf.urls.static import static # for media folder
+from django.conf import settings
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+
+    # features urls
+    path('discover/', feature_views.discovery_page, name="discovery_page")
 ]
+
+# fixes access to media folder for now
+# TODO: def revisit tho, I don't like the DEBUG check
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
