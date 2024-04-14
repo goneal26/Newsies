@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Followed Pages</title>
+</head>
+<body>
+  <h1>Pages You Follow</h1>
+  <ul>
+    {% for page in followed pages %}
+        <li>{{ page. name }}</li> <!-- Display the page name or other relevant information -->
+    {% endfor %}
+  </ul>
+</body>
+</html>
