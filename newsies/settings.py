@@ -38,7 +38,11 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'features.apps.FeaturesConfig'
+    'features.apps.FeaturesConfig',
+    'users.apps.UsersConfig',
+    'bootstrap4',
+    'crispy_forms', # makes those forms look nice
+    'crispy_bootstrap4',
 ]
 
 MIDDLEWARE = [
@@ -125,7 +129,15 @@ MEDIA_URL = '/media/' # media folder stuff (outlet logo images, pfps, etc)
 STATIC_ROOT = os.path.join(BASE_DIR, '..', 'staticfiles')
 STATIC_URL = '/static/'
 
+CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap4"
+CRISPY_TEMPLATE_PACK = 'bootstrap4'
+# project will be using bootstrap 4 for full crispy_forms compatibility
+
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+LOGIN_REDIRECT_URL = 'discover' # TODO eh maybe diff one
+
+LOGIN_URL = 'login'

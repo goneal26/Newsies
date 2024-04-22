@@ -15,19 +15,38 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path
+from django.urls import path 
+# ^ shouldn't need "include" if urls defined only in here
 from features import views as feature_views
+from users import views as user_views
+from django.contrib.auth import views as auth_views
 from django.conf.urls.static import static # for media folder
 from django.conf import settings
 
 urlpatterns = [
     path('admin/', admin.site.urls),
 
+    # user authentication urls
+    path('register/', user_views.register, name='register'),
+    path(
+        'login/', 
+        auth_views.LoginView.as_view(template_name='login.html'),
+        name='login'
+    ),
+    path( # log out
+        'logout/', 
+        auth_views.LogoutView.as_view(next_page='login'), 
+        name='logout'
+    ),
+
+    # current-user profile page
+    path('profile/', user_views.current_user_profile, name='profile'),
+
     # features urls
-    path('discover/', feature_views.discovery_page, name="discovery_page")
+    path('discover/', feature_views.discovery_page, name="discover"),
 ]
 
-# fixes access to media folder for now
-# TODO: def revisit tho, I don't like the DEBUG check
-if settings.DEBUG:
+# TODO: revisit before deployment (shouldn't deploy with settings.DEBUG)
+# see https://docs.djangoproject.com/en/5.0/howto/static-files/deployment/
+if settings.DEBUG: # access to media folder VVV
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

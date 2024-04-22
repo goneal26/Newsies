@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+{% load static %}
+{% load bootstrap4 %}
+{% load crispy_forms_tags %}
+
+{% bootstrap_css %}
+{% bootstrap_javascript %}
+
+{% block content %}
+
+  <title>Registration</title>
+
+  <div class="registration-form">
+    <h2>Create an Account</h2>
+    <form method="POST">
+      {% csrf_token %}
+      <fieldset class="form-group">
+        {{ form|crispy }}
+      </fieldset>
+      <div class="button-container">
+        <button type="submit">Register</button>
+      </div>
+    </form>
+  </div>
+
+{% endblock %}

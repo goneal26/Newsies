@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+
+{% load static %}
+{% load bootstrap4 %}
+{% load crispy_forms_tags %}
+
+{% bootstrap_css %}
+{% bootstrap_javascript %}
+
+{% block content %}
+
+
+  <title>Newsies Login</title>
+
+  <!-- TODO use django form -->
+  <div class="login-container">
+    <h1>Login</h1>
+    <form method='POST'>
+      {% csrf_token %}
+      <fieldset class="form-group">
+        {{ form|crispy }}
+      </fieldset>
+      <div class="button-container">
+        <button type="submit">Log In</button>
+      </div>
+    </form>
+    <p>Don't have an account? <a href="{% url 'register' %}">Register</a></p>
+  </div>
+
+{% endblock %}
+
