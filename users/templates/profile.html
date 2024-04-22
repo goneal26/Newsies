@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block content %}
+  <link rel="stylesheet" href='{% static "css/profile.css" %}'>
+  
+  <title>User Profile</title>
+
+  <div class="profile-container">
+    <div class="profile-details">
+      <img src="{{ user.profile.image.url }}" alt="Profile Image">
+      <h1>{{ user.username }}</h1>
+      <button id="editProfileBtn">Edit Profile</button>
+    </div>
+  </div>
+
+  <!-- edit profile forms modal -->
+  {% include 'edit-profile.html' %}
+
+  <script>
+    // JavaScript to handle opening modal
+    document.addEventListener('DOMContentLoaded', function() {
+      var btn = document.getElementById('editProfileBtn');
+  
+      // Open modal when button is clicked
+      btn.onclick = function() {
+        var modal = document.getElementById('editProfileModal');
+        modal.style.display = 'block';
+      }
+    });
+  </script>
+
+{% endblock %}
+

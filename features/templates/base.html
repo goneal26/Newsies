@@ -1,11 +1,12 @@
 {% load static %}
 
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
   <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href='{% static "css/base.css" %}'>
+
   </head>
   <body>
 
@@ -14,15 +15,29 @@
       <img id="navlogo" src='{% static "images/newscap.png" %}' alt="Newsboy Cap Logo">
     -->
 
+    
     <div class="navbar"> <!-- maybe refactor to use nav tag? not really necessary tho -->
+      
       <ul>
-        <li><a href="#">Home</a></li> <!-- home -->
-        <li><a href="{% url 'discovery_page' %}">Explore</a></li> <!-- discovery -->
-        <li><a href="#">Partners</a></li> <!-- partnered outlets -->
-        <li><a href="#">Profile</a></li>
-        <li><a href="#">Log Out</a></li> <!-- log out -->
+        {% if user.is_authenticated %}
+          <li><a href="#">Home</a></li> <!-- home -->
+          <li><a href="{% url 'discover' %}">Explore</a></li> <!-- discovery -->
+          <li><a href="#">Partners</a></li> <!-- partnered outlets -->
+          <li><a href="{% url 'profile' %}">Profile</a></li>
+          <li>
+            <form action="{% url 'logout' %}" method="POST">
+              {% csrf_token %}
+              <button type="submit" class="navbar-link">Logout</button>
+            </form>
+          </li> <!-- log out -->
+        {% else %}
+          <li><a href="{% url 'login' %}">Log In</a></li>
+          <li><a href="{% url 'register' %}">Register</a></li>
+        {% endif %}
       </ul>
+      
     </div>
+    
   
   <div id="container">
     {% block content %}

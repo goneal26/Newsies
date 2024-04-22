@@ -33,16 +33,22 @@ body {
 }
 
 /* Style the navigation links */
-.navbar a {
+.navbar a, .navbar button.navbar-link {
   background-color: #333;
   color: white;
   text-align: center;
   padding: 14px 16px;
   text-decoration: none;
+  font-size: inherit;
+  font-family: inherit;
+  /* remove button styling */
+  border: none;
+  cursor: pointer;
+  display: inline-block;
 }
 
 /* Change link color on hover */
-.navbar a:hover {
+.navbar a:hover, .navbar button.navbar-link:hover {
   background-color: #ddd;
   color: black;
 }
@@ -72,8 +78,9 @@ body {
         padding: 0; /* Remove default padding */
     }
 
-    .navbar a {
-        padding: 10px; /* Adjust link padding */
+    .navbar a, .navbar button.navbar-link {
+        font-size: smaller;
+        padding: 5px !important; /* Adjust link padding */
     }
 }
 
@@ -82,5 +89,7 @@ footer {
   text-align: center;
   padding: 1rem;
   background-color: #333;
-  color: #fff
+  color: #fff;
+  position: fixed;
+  bottom: 0;
 }
