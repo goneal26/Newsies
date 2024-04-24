@@ -42,8 +42,11 @@ urlpatterns = [
     # current-user profile page
     path('profile/', user_views.current_user_profile, name='profile'),
 
-    # features urls
+    # discovery page urls
     path('discover/', feature_views.discovery_page, name="discover"),
+    path('discover/<int:pk>/upvote/', feature_views.upvote, name='upvote'),
+    path('discover/<int:pk>/downvote/', feature_views.downvote, name='downvote'),
+
 ]
 
 # TODO: revisit before deployment (shouldn't deploy with settings.DEBUG)
