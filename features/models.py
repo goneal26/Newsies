@@ -6,6 +6,7 @@ from django.urls import reverse
 # model for news outlets
 class Outlet(models.Model):
 	rss_url = models.CharField(max_length=255) # RSS url
+	page_url = models.CharField(max_length=255, default="")
 	name = models.CharField(max_length=255) # outlet name
 	logo = models.ImageField(default='images/default.png', upload_to='outlet_logos') 
 	followers = models.ManyToManyField(User, blank=True)
