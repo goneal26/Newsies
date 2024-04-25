@@ -42,6 +42,9 @@ urlpatterns = [
     # current-user profile page
     path('profile/', user_views.current_user_profile, name='profile'),
 
+    # partnered outlets page
+    path('outlets/', feature_views.outlets_page, name="outlets"),
+
     # discovery page urls
     path('discover/', feature_views.discovery_page, name="discover"),
     path('discover/<int:pk>/upvote/', feature_views.upvote, name='upvote'),

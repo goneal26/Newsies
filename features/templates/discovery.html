@@ -14,7 +14,8 @@
 
     {% for blurb in blurbs %}
     <article class="news-article">
-      <div class="blurb-container">
+      <div class="news-container"> 
+        <!-- TODO refactor to news-container from blurb-container? -->
         <div class="blurb-outlet">
           <img src="{{ blurb.outlet.logo.url }}" alt="{{ blurb.outlet.name }} logo">
           <a href="#">{{ blurb.outlet.name }}</a>

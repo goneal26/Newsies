@@ -6,6 +6,16 @@ from django.db.models import Count
 
 
 @login_required
+def outlets_page(request):
+    all_outlets = Outlet.objects.order_by('-name').all()
+
+    context = {
+        'outlets': all_outlets,
+    }
+
+    return render(request, 'outlets.html', context)
+
+@login_required
 def discovery_page(request):
     all_blurbs = Blurb.objects.select_related('outlet').annotate(
         vote_count =  Count('upvotes') - Count('downvotes')

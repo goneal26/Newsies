@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block content %}
+
+<link rel="stylesheet" href='{% static "css/discovery.css" %}'>
+<title>Outlets</title>
+
+<header>
+	<h1>Our Partnered Outlets:</h1>
+</header>
+
+<main>
+
+	{% for outlet in outlets %}
+	<article class="news-article" style="display: block;">
+		<div class="outlet-container">
+			<img src="{{ outlet.logo.url }}" alt="{{ outlet.name }}">
+			<h2>{{ outlet.name }}</h2>
+			<a href="{{ outlet.page_url }}" target="_blank">Link</a>
+			<!-- TODO follow button here -->
+		</div>
+	</article>
+	{% endfor %}
+
+</main>
+
+{% endblock %}
