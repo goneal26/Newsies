@@ -62,3 +62,16 @@ def current_user_profile(request):
     }
 
     return render(request, 'profile.html', context)
+
+def comment_new(request):
+    if request.method == 'POST':
+        form = CommentForm(request.POST)
+        if form.is_valid():
+            comment = form.save(commit=False)
+            comment.user = request.user
+            comment.post = your_post_instance
+            comment.save()
+            return redirect('posts:post_detail', pk=comment.post.pk)
+    else:
+        form = CommentForm()
+    return render(request, 'Newsies/features/templates/post_detail.html', {'form': form})
