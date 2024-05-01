@@ -22,6 +22,9 @@ from users import views as user_views
 from django.contrib.auth import views as auth_views
 from django.conf.urls.static import static # for media folder
 from django.conf import settings
+from . import views
+
+app_name = 'posts'
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -50,6 +53,8 @@ urlpatterns = [
     path('discover/<int:pk>/upvote/', feature_views.upvote, name='upvote'),
     path('discover/<int:pk>/downvote/', feature_views.downvote, name='downvote'),
 
+    # comment urls
+    path('comment_new/', views.comment_new, name='comment_new'),
 ]
 
 # TODO: revisit before deployment (shouldn't deploy with settings.DEBUG)
