@@ -1,7 +1,7 @@
 from django import forms
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
-from .models import Profile
+from .models import Profile, Comment
 
 # main resource for all auth stuff is from our last project
 # (authentication for Newsies should behave the same as how NuPath was supposed
@@ -60,3 +60,8 @@ class UserUpdateForm(forms.ModelForm):
     class Meta:
         model = User
         fields = ['username', 'email']
+
+class CommentForm(forms.ModelForm):
+	class Meta:
+		model = Comment
+		fields = ['text']
