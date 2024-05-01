@@ -1,0 +1,24 @@
+<!-- post_detail.html -->
+{% extends 'base.html' %}
+
+{% block content %}
+    <!-- Display post details -->
+    <h1>{{ post.title }}</h1>
+    <p>{{ post.desc }}</p>
+    <img src="{{ post.photo.url }}" alt="{{ post.title }}">
+
+    <!-- Display existing comments -->
+    <h2>Comments</h2>
+    <ul>
+        {% for comment in post.comments.all %}
+            <li>{{ comment.text }} - {{ comment.user.username }}</li>
+        {% endfor %}
+    </ul>
+
+    <!-- Add new comment form -->
+    <form method="post" action="{% url 'posts:comment_new' %}">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Add Comment</button>
+    </form>
+{% endblock %}
