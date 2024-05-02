@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Newsfeed</title>
+  </head>
+  <body>
+    <h1>Newsfeed</h1>
+    {% for article in articles %}
+        <div>
+          <h2>{{ article.title }}</h2>
+          <p>{{ article.content }}</p>
+        </div>
+    {% endfor %}
+
+    <div>
+      <h3>Your Badge:</h3>
+      <p>{{ badge }}</p>
+    </div>
+  </body>
+</html>
