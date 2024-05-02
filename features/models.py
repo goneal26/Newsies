@@ -119,3 +119,28 @@ class Comment(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     text = models.TextField()
     created_at = models.DateTimeField(auto_now_add=True)
+
+class Article(models.Model):
+	title = models.CharField(max_length=200)
+	content = models.TextField()
+	author = models.ForeignKey(User, on_delete=models.CASCADE)
+	timestamp = models.DateTimeField(auto_now_add=True)
+
+class UserArticleInteraction(models.Model):
+	user = models.ForeignKey(User, on_delete=models.CASCADE)
+	article = models.ForeignKey(Article, on_delete=models.CASCADE)
+	read_count = models.PositiveIntegerField(default=0)
+	
+	def update_read_count(self):
+		self.read_count += 1
+		self.save()
+
+	def get_badge(self):
+		if self.read_count >= 100:
+			return "Gold Badge"
+		elif self.read_count >= 50:
+			return "Silver Badge"
+		elif self.read_count >= 10:
+			return "Bronze Badge"
+		else:
+			return "No Badge"
