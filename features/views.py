@@ -67,3 +67,18 @@ def comment_new(request):
     else:
         form = CommentForm()
     return render(request, 'Newsies/features/templates/post_detail.html', {'form': form})
+
+def newsfeed(request):
+    # Retrieve articles and user interactions
+    articles = Article.objects.all()
+    user_interactions = UserArticleInteraction.objects.filter(user=request.user)
+    
+    # Update read count for a specific article (e.g., when user reads an article)
+    # You can call this function when a user interacts with an article.
+    # Example: user_interaction.update_read_count()
+    
+    # Get the badge for the current user
+    user_interaction = user_interactions.first()
+    badge = user_interaction.get_badge()
+    
+    return render(request, 'newsfeed.html', {'articles': articles, 'badge': badge})
