@@ -109,5 +109,13 @@ class Blurb(models.Model):
 	def __str__(self):
 		return f'Blurb {self.title} from {self.outlet.name}'
 
+class Post(models.Model):
+    title = models.CharField(max_length=255)
+    desc = models.TextField()
+    photo = models.ImageField(upload_to='posts/')
 
-
+class Comment(models.Model):
+    post = models.ForeignKey(Post, related_name='comments', on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    text = models.TextField()
+    created_at = models.DateTimeField(auto_now_add=True)
