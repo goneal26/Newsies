@@ -42,6 +42,9 @@ urlpatterns = [
     # current-user profile page
     path('profile/', user_views.current_user_profile, name='profile'),
 
+    # outlet following
+    path('follow/<int:pk>/', feature_views.follow, name='follow'),
+
     # partnered outlets page
     path('outlets/', feature_views.outlets_page, name="outlets"),
 

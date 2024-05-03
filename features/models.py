@@ -10,7 +10,6 @@ class Outlet(models.Model):
 	name = models.CharField(max_length=255) # outlet name
 	logo = models.ImageField(default='images/default.png', upload_to='outlet_logos') 
 	followers = models.ManyToManyField(User, blank=True)
-	# ^ manytomany should be right?
 
 	# override save function for saving logo images at a specific size
 	def save(self, *args, **kwargs):
