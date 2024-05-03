@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block content %}
+
+<link rel="stylesheet" href='{% static "css/discovery.css" %}'>
+
+<style>
+	.podcast-info {
+		align-self: center;
+		display: flex;
+    	flex-direction: column;
+    	align-items: flex-end;
+    	text-align: right;
+	}
+
+</style>
+
+<title>Podcasts</title>
+
+<header>
+	<h1>Discover New Podcasts:</h1>
+</header>
+
+
+
+<main>
+	<!-- NOTE okay for now but might add more details later to make it more "full" -->
+	
+	{% for podcast in podcasts %}
+	<!-- TODO refactor these CSS classes/names since we aren't just using them for blurbs anymore -->
+	<article class="news-article" style="flex-direction: column; align-items: stretch; ">
+		<div class="news-container" style="display: flex;flex-direction: row;justify-content: space-between;">
+			<div class="podcast-logo">
+				<img src="{{ podcast.logo.url }}" alt="{{ podcast.name }}" style="max-width: 175px;">
+			</div>
+			<div class="podcast-info">
+				<h1 style="font-size: xx-large;">{{ podcast.name }}</h2>
+				<h4>Produced by {{ podcast.author }}</h4>
+				<a href="{{ podcast.url }}" target="_blank">Listen</a>
+			</div>
+		</div>
+	</article>
+	{% endfor %}
+
+</main>
+
+{% endblock %}

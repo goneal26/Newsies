@@ -16,6 +16,16 @@ def outlets_page(request):
     return render(request, 'outlets.html', context)
 
 @login_required
+def podcasts_page(request):
+    all_podcasts = Podcast.objects.order_by('-name').all()
+
+    context = {
+        'podcasts': all_podcasts
+    }
+
+    return render(request, 'podcasts.html', context)
+
+@login_required
 def discovery_page(request):
     all_blurbs = Blurb.objects.select_related('outlet').annotate(
         vote_count =  Count('upvotes') - Count('downvotes')

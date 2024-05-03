@@ -45,6 +45,9 @@ urlpatterns = [
     # partnered outlets page
     path('outlets/', feature_views.outlets_page, name="outlets"),
 
+    # podcasts page
+    path('podcasts/', feature_views.podcasts_page, name="podcasts"),
+
     # discovery page urls
     path('discover/', feature_views.discovery_page, name="discover"),
     path('discover/<int:pk>/upvote/', feature_views.upvote, name='upvote'),

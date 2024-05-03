@@ -41,7 +41,6 @@ class Outlet(models.Model):
 	def __str__(self):
 		return f'Outlet {self.name}'
 
-
 # model for blurb posts
 class Blurb(models.Model):
 	title = models.CharField(max_length=255) # article title
@@ -111,3 +110,13 @@ class Blurb(models.Model):
 
 
 
+
+
+class Podcast(models.Model):
+	url = models.CharField(max_length=255)
+	name = models.CharField(max_length=255)
+	author = models.CharField(max_length=255)
+	logo = models.ImageField(default=None, upload_to='podcast_logos')
+
+	def __str__(self):
+		return f'Podcast {self.name}'
