@@ -20,7 +20,7 @@
       
       <ul>
         {% if user.is_authenticated %}
-          <li><a href="#">Home</a></li> <!-- home -->
+          <li><a href="{% url 'home' %}">Home</a></li> <!-- home -->
           <li><a href="{% url 'discover' %}">Explore</a></li> <!-- discovery -->
           <li><a href="{% url 'outlets' %}">Partners</a></li> <!-- partnered outlets -->
           <li><a href="{% url 'podcasts' %}">Podcasts</a></li>

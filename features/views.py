@@ -59,6 +59,18 @@ def discovery_page(request):
     return render(request, 'discovery.html', context)
 
 @login_required
+def home_page(request):
+    followed_blurbs = Blurb.objects.filter(outlet__followers=request.user)
+
+    context = {
+        'blurbs': followed_blurbs,
+    }
+
+    return render(request, 'home.html', context)
+
+# TODO maybe refactor these to be more like the follow view- separate POST api urls
+# using HTML form actions
+@login_required
 def upvote(request, pk):
     if request.method == "POST":
         blurb = get_object_or_404(Blurb, pk=pk)
