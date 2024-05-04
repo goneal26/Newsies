@@ -70,30 +70,26 @@ def home_page(request):
 
 # TODO maybe refactor these to be more like the follow view- separate POST api urls
 # using HTML form actions
-@login_required
-def upvote(request, pk):
-    if request.method == "POST":
-        blurb = get_object_or_404(Blurb, pk=pk)
-        if request.user in blurb.downvotes.all():
-            blurb.downvotes.remove(request.user)
-        blurb.upvotes.add(request.user)
-        return JsonResponse({
-            'success': True, 
-            'upvotes': blurb.upvotes.count(), 
-            'downvotes': blurb.downvotes.count()
-        })
-    return JsonResponse({'success': False})
 
 @login_required
-def downvote(request, pk):
-    if request.method == "POST":
-        blurb = get_object_or_404(Blurb, pk=pk)
+@require_POST
+def vote(request, pk):
+    url = request.POST.get('next', '/')
+    blurb = get_object_or_404(Blurb, pk=pk)
+
+    if 'upvote' in request.POST:
         if request.user in blurb.upvotes.all():
             blurb.upvotes.remove(request.user)
-        blurb.downvotes.add(request.user)
-        return JsonResponse({
-            'success': True, 
-            'upvotes': blurb.upvotes.count(), 
-            'downvotes': blurb.downvotes.count()
-        })
-    return JsonResponse({'success': False})
+        else:
+            if request.user in blurb.downvotes.all():
+                blurb.downvotes.remove(request.user)
+            blurb.upvotes.add(request.user)
+    elif 'downvote' in request.POST:
+        if request.user in blurb.downvotes.all():
+            blurb.downvotes.remove(request.user)
+        else:
+            if request.user in blurb.upvotes.all():
+                blurb.upvotes.remove(request.user)
+            blurb.downvotes.add(request.user)
+    
+    return redirect(url)

@@ -28,9 +28,13 @@
         </div>
       </div>
       <div class="upvotes-downvotes">
-        <button class="upvote-button" id="upvote-{{ blurb.id }}">+</button>
-        <span class="vote-counter" id="votes-{{ blurb.id }}">{{ blurb.vote_count }}</span>
-        <button class="downvote-button" id="downvote-{{ blurb.id }}">-</button>
+        <form action="{% url 'vote' blurb.id %}" method="POST">
+          {% csrf_token %}
+          <input type="hidden" name="next" value="{{ request.path }}"> <!-- for redirecting to current page's url after submit -->
+          <button class="upvote-button" type='submit' name="upvote">+</button>
+          <span class="vote-counter">{{ blurb.vote_count }}</span>
+          <button class="downvote-button" type='submit' name="downvote">-</button>
+        </form>
       </div>
     </article>
     {% endfor %}
@@ -40,72 +44,5 @@
   <div class="blurb-modal">
     <!-- TODO: make this popup modal to view comments, etc -->
   </div>
-
-  <!-- TODO maybe make this a separate script to hook up to both pages? -->
-  <script>
-    // handling upvote/downvote requests
-    document.addEventListener('DOMContentLoaded', (event) => {
-      document.querySelectorAll('.upvotes-downvotes button').forEach(function(button) {
-        button.onclick = function() {
-          let blurbID = this.id.split('-')[1];
-          let action = this.id.split('-')[0];
-          sendVote(blurbID, action);
-        };
-      });
-    });
-
-    // function for sending upvote/downvote request (XMLHttpRequest)
-    function sendVote(blurbID, action) {
-      let xhr = new XMLHttpRequest();
-      let url = "";
-
-      if (action === "upvote") {
-        url = "{% url 'upvote' '0' %}".replace('0', blurbID);
-      } else if (action === "downvote") {
-        url = "{% url 'downvote' '0' %}".replace('0', blurbID);
-      }
-
-      xhr.open('POST', url, true);
-      xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-      xhr.setRequestHeader('X-CSRFToken', getCookie('csrftoken'));
-
-      xhr.onload = function () {
-        if (this.status == 200) {
-          let response = JSON.parse(this.responseText);
-          if (response.success) {
-            document.getElementById('votes-' + blurbID).innerText = response.upvotes - response.downvotes;
-            console.log(response.upvotes + response.downvotes);
-          } else {
-            // request action handle error
-            console.error('Error voting on blurb');
-          }
-        } else {
-          // HTTP failure/error
-          console.error('HTTP error when voting: ' + this.status);
-        }
-      };
-
-      xhr.send('action=' + action + '&blurbID=' + blurbID);
-    }
-
-    // get csrf token
-    function getCookie(name) {
-      let cookieValue = null;
-      if (document.cookie && document.cookie !== '') { // cookie isn't null
-        let cookies = document.cookie.split(';');
-        for (let i = 0; i < cookies.length; i++) { // check every cookie
-          let cookie = cookies[i].trim();
-          // check if this cookie contains the name prefix
-          if (cookie.substring(0, name.length + 1) === (name + '=')) {
-            cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-            break;
-          }
-        }
-      }
-
-      return cookieValue;
-    }
-
-  </script>
   
 {% endblock %}

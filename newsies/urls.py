@@ -35,7 +35,7 @@ urlpatterns = [
     ),
     path( # log out
         'logout/', 
-        auth_views.LogoutView.as_view(next_page='login'), 
+        auth_views.LogoutView.as_view(next_page='login'),
         name='logout'
     ),
 
@@ -56,8 +56,9 @@ urlpatterns = [
 
     # discovery page urls
     path('discover/', feature_views.discovery_page, name="discover"),
-    path('discover/<int:pk>/upvote/', feature_views.upvote, name='upvote'),
-    path('discover/<int:pk>/downvote/', feature_views.downvote, name='downvote'),
+
+    # upvoting and downvoting
+    path('vote/<int:pk>/', feature_views.vote, name="vote"),
 
 ]
 
