@@ -1,6 +1,7 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.decorators import login_required
 from .models import *
+from users.models import Profile
 from django.http import JsonResponse
 from django.db.models import Count, BooleanField, Case, When
 from django.views.decorators.http import require_POST
@@ -60,16 +61,15 @@ def discovery_page(request):
 
 @login_required
 def home_page(request):
-    followed_blurbs = Blurb.objects.filter(outlet__followers=request.user)
+    followed_blurbs = Blurb.objects.filter(outlet__followers=request.user).annotate(
+        vote_count =  Count('upvotes') - Count('downvotes')
+    ).order_by('-date').all() # should filter them by vote count
 
     context = {
         'blurbs': followed_blurbs,
     }
 
     return render(request, 'home.html', context)
-
-# TODO maybe refactor these to be more like the follow view- separate POST api urls
-# using HTML form actions
 
 @login_required
 @require_POST
@@ -92,4 +92,15 @@ def vote(request, pk):
                 blurb.upvotes.remove(request.user)
             blurb.downvotes.add(request.user)
     
+    return redirect(url)
+
+@login_required
+@require_POST
+def read_article(request): # for counting a user clicks a "read more" link for reading badges
+    url = request.POST.get('next', '/')
+    profile = request.user.profile
+
+    profile.articles_read += 1 # increment articles read
+    profile.save()
+
     return redirect(url)

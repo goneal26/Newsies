@@ -60,6 +60,9 @@ urlpatterns = [
     # upvoting and downvoting
     path('vote/<int:pk>/', feature_views.vote, name="vote"),
 
+    # url for incrementing articles read for badges
+    path('read-article/', feature_views.read_article, name="read_article"),
+
 ]
 
 # TODO: revisit before deployment (shouldn't deploy with settings.DEBUG)

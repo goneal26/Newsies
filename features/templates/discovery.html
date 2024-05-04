@@ -24,11 +24,16 @@
         <div class="blurb-content">
           <h2>{{ blurb.title }}</h2>
           <p>{{ blurb.description }}</p>
-          <a href="{{ blurb.link }}" target="_blank">Read More</a>
+          <form action="{% url 'read_article' %}" method="POST" target="_blank">
+            {% csrf_token %}
+            <input type="hidden" name="next" value="{{ blurb.link }}">
+            <input type="submit" value="Read More"> <!-- TODO style like old <a> tag -->
+          </form>
         </div>
       </div>
       <div class="upvotes-downvotes">
         <form action="{% url 'vote' blurb.id %}" method="POST">
+          <!-- upvote/downvote form -->
           {% csrf_token %}
           <input type="hidden" name="next" value="{{ request.path }}"> <!-- for redirecting to current page's url after submit -->
           <button class="upvote-button" type='submit' name="upvote">+</button>

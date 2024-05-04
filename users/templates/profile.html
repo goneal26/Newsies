@@ -10,7 +10,11 @@
   <div class="profile-container">
     <div class="profile-details">
       <img src="{{ user.profile.image.url }}" alt="Profile Image">
+      {% if has_badge %}
+      <h1>📖{{ user.username }}</h1>
+      {% else %}
       <h1>{{ user.username }}</h1>
+      {% endif %}
       <button id="editProfileBtn">Edit Profile</button>
     </div>
   </div>
