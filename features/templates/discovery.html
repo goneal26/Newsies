@@ -13,7 +13,17 @@
   </header>
 
   <main>
-    
+    <div class="searchbar">
+      <form method="POST">
+        {% csrf_token %}
+        <input name="q" type="text" placeholder="Search keywords or tags.">
+        <input type="submit" value="Search">
+      </form>
+      {% if filter_text %}
+      <p>Search results for "{{ filter_text }}":</p>
+      {% endif %}
+    </div>
+    <br>
 
     {% for blurb in blurbs %}
     <article class="news-article" id="blurb-article-{{ blurb.id }}">
@@ -71,7 +81,7 @@
           
         </div>
         
-        <div class="comments">
+        <div class="comments"> <!-- comment form -->
           <form method="POST" action="{% url 'post_comment' blurb.id %}">
             {% csrf_token %}
             <!-- IFTIME if time change to not reload the page, that way user sees their changes without closing modal -->

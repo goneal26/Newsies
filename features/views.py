@@ -3,7 +3,7 @@ from django.contrib.auth.decorators import login_required
 from .models import *
 from users.models import Profile
 from django.http import JsonResponse
-from django.db.models import Count, BooleanField, Case, When
+from django.db.models import Count, BooleanField, Case, When, Q
 from django.views.decorators.http import require_POST
 
 @login_required
@@ -52,9 +52,25 @@ def discovery_page(request):
     all_blurbs = Blurb.objects.select_related('outlet').annotate(
         vote_count =  Count('upvotes') - Count('downvotes')
     ).order_by('-vote_count').all() # should filter them by vote count
+
+    filter_text = ""
+
+    # if searching
+    if request.method == 'POST':
+        query = request.POST.get('q')
+        if query:
+            filter_text = query
+            if query[0] == '#' and len(query) > 1: # if searching for tag
+                tagname = query[1:].strip()
+                all_blurbs = all_blurbs.filter(tags__name=tagname)
+            else: # searching for keyword
+                all_blurbs = all_blurbs.filter(
+                    Q(title__icontains=query) | Q(description__icontains=query)
+                )
     
     context = {
         'blurbs': all_blurbs,
+        'filter_text': filter_text
     }
     
     return render(request, 'discovery.html', context)
