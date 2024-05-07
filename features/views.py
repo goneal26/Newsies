@@ -122,6 +122,29 @@ def delete_comment(request, pk):
 
 @login_required
 @require_POST
+def vote_comment(request, pk):
+    url = request.POST.get('next', '/')
+    comment = get_object_or_404(Comment, pk=pk)
+
+    if 'upvote' in request.POST:
+        if request.user in comment.upvotes.all():
+            comment.upvotes.remove(request.user)
+        else:
+            if request.user in comment.downvotes.all():
+                comment.downvotes.remove(request.user)
+            comment.upvotes.add(request.user)
+    elif 'downvote' in request.POST:
+        if request.user in comment.downvotes.all():
+            comment.downvotes.remove(request.user)
+        else:
+            if request.user in comment.upvotes.all():
+                comment.upvotes.remove(request.user)
+            comment.downvotes.add(request.user)
+
+    return redirect(url)
+
+@login_required
+@require_POST
 def read_article(request): # for counting a user clicks a "read more" link for reading badges
     url = request.POST.get('next', '/')
     profile = request.user.profile

@@ -126,6 +126,9 @@ class Comment(models.Model):
 		related_name = "comment_downvotes"
 	)
 
+	def net_votes(self):
+		return self.upvotes.count() - self.downvotes.count()
+
 	def __str__(self):
 		return f'Comment from {self.author.username} on blurb {self.blurb}'
 

@@ -81,6 +81,14 @@
                 <h2>Comments:</h2>
                 <h3>From <span style="color:red;">@{{ comment.author.username }}</span>:</h3>
                 <p>{{ comment.text }}</p>
+                <form action="{% url 'vote_comment' comment.id %}" method="POST">
+                  <!-- upvote/downvote comment form -->
+                  {% csrf_token %}
+                  <input type="hidden" name="next" value="{{ request.path }}">
+                  <button class="upvote-button" type='submit' name="upvote">+</button>
+                  <span class="vote-counter">{{ comment.net_votes }}</span>
+                  <button class="downvote-button" type='submit' name="downvote">-</button>
+                </form>
                 {% if comment.author == request.user %} <!-- editing/deleting -->
                 <form method="POST" action="{% url 'delete_comment' comment.id %}">
                   {% csrf_token %}
