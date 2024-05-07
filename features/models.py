@@ -52,7 +52,7 @@ class Blurb(models.Model):
 	) # news outlet that "posted" the blurb (i.e. where it was fetched from)
 
 	link = models.CharField(max_length=255) 
-	# external url for article, I think 255 is plenty
+	# NOTE may need to increase max length later
 
 	date = models.DateTimeField(default=None)
 	# date/time of publishing by the article
@@ -61,7 +61,7 @@ class Blurb(models.Model):
 	# upvotes and downvotes, relate to users
 	upvotes = models.ManyToManyField(
 		User, 
-		related_name='upvoted_blurbs', # TODO: look into related name docs 
+		related_name='upvoted_blurbs',
 		blank=True
 	)
 	downvotes = models.ManyToManyField(
@@ -100,15 +100,34 @@ class Blurb(models.Model):
 
 		return blurb
 
-	#def get_absolute_url(self): # url for a specific blurb
-	#return reverse('blurbs:blurb', kwargs={'pk': self.pk})
-	# TODO add abs urls to urls.py
-
 	def __str__(self):
 		return f'Blurb {self.title} from {self.outlet.name}'
 
 
+class Comment(models.Model):
+	# user that posted the comment
+	author = models.ForeignKey(User, related_name='author', on_delete=models.CASCADE)
 
+	# the blurb the comment is under
+	blurb = models.ForeignKey(Blurb, related_name='comments', on_delete=models.CASCADE)
+
+	# comment text content (NOTE: parse to get tags later)
+	text = models.TextField(blank=True, default="")
+	
+	# upvotes and downvotes
+	upvotes = models.ManyToManyField(
+		User, 
+		blank=True,
+		related_name = "comment_upvotes",
+	)
+	downvotes = models.ManyToManyField(
+		User, 
+		blank=True,
+		related_name = "comment_downvotes"
+	)
+
+	def __str__(self):
+		return f'Comment from {self.author.username} on blurb {self.blurb}'
 
 
 class Podcast(models.Model):

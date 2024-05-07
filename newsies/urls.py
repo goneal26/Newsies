@@ -60,6 +60,10 @@ urlpatterns = [
     # upvoting and downvoting
     path('vote/<int:pk>/', feature_views.vote, name="vote"),
 
+    # posting and deleting comments
+    path('post-comment/<int:pk>/', feature_views.post_comment, name="post_comment"),
+    path('delete-comment/<int:pk>/', feature_views.delete_comment, name="delete_comment"),
+
     # url for incrementing articles read for badges
     path('read-article/', feature_views.read_article, name="read_article"),
 

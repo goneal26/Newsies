@@ -4,6 +4,8 @@
 
 {% block content %}
   <link rel="stylesheet" href='{% static "css/discovery.css" %}'>
+  <link rel="stylesheet" href="{% static 'css/blurb-details.css' %}">
+
   <title>Discovery</title>
 
   <header>
@@ -13,7 +15,7 @@
   <main>
 
     {% for blurb in blurbs %}
-    <article class="news-article">
+    <article class="news-article" id="blurb-article-{{ blurb.id }}">
       <div class="news-container"> 
         <!-- TODO refactor to news-container from blurb-container? -->
         <div class="blurb-outlet">
@@ -24,6 +26,11 @@
         <div class="blurb-content">
           <h2>{{ blurb.title }}</h2>
           <p>{{ blurb.description }}</p>
+
+          <!-- click to view blurb detail/comment popup -->
+          <a href="#" class="view-comments" data-blurb-id="{{ blurb.id }}">View Comments</a>
+
+          <!-- external article link, now a form for badges -->
           <form action="{% url 'read_article' %}" method="POST" target="_blank">
             {% csrf_token %}
             <input type="hidden" name="next" value="{{ blurb.link }}">
@@ -42,12 +49,88 @@
         </form>
       </div>
     </article>
+
+    <!-- unique modal for each blurb -->
+    <div class="blurb-modal" id="modal-{{ blurb.id }}">
+      <div class="modal-content">
+        <span class="close">&times;</span>
+        <div id="modal-details">
+          <img src="{{ blurb.outlet.logo.url }}" alt="{{ blurb.outlet.name }} logo">
+          <a href="{{ blurb.outlet.page_url }}">{{ blurb.outlet.name }}</a>
+          <h2>{{ blurb.title }}</h2>
+          <p>{{ blurb.description }}</p>
+        </div>
+        
+        <div class="comments">
+          <form method="POST" action="{% url 'post_comment' blurb.id %}">
+            {% csrf_token %}
+            <!-- IFTIME if time change to not reload the page, that way user sees their changes without closing modal -->
+            <input type="hidden" name="next" value="{{ request.path }}">
+            <p><label for="input-text">Post Comment:</label></p>
+            <textarea rows="4" cols="50" name="input-text"></textarea>
+            <input type="submit" value="Post">
+          </form>
+
+          <br>
+          <!-- all comments displayed here -->
+          {% if not blurb.comments.all %}
+            <p>No comments yet...</p>
+          {% else %}
+            {% for comment in blurb.comments.all %}
+              <div class="comment">
+                <h2>Comments:</h2>
+                <h3>From <span style="color:red;">@{{ comment.author.username }}</span>:</h3>
+                <p>{{ comment.text }}</p>
+                {% if comment.author == request.user %} <!-- editing/deleting -->
+                <form method="POST" action="{% url 'delete_comment' comment.id %}">
+                  {% csrf_token %}
+                  <input type="hidden" name="next" value="{{ request.path }}">
+                  <input type="submit" name="delete" value="Delete">
+                </form>
+                {% endif %}
+              </div>
+              <br>
+            {% endfor %}
+          {% endif %}
+        </div>
+      </div>
+    </div>
     {% endfor %}
 
-  </main>
+  </main>  
 
-  <div class="blurb-modal">
-    <!-- TODO: make this popup modal to view comments, etc -->
-  </div>
+  <script>
+
+    // get all "view comments" links
+    let links = document.querySelectorAll('a.view-comments'); 
+    links.forEach(function(link) {
+      link.addEventListener('click', function(e) { // for each link
+        e.preventDefault();
+
+        // get the ID for that link's blurb
+        let blurbID = link.getAttribute('data-blurb-id'); 
+
+        // now get the modal with that ID
+        let modal = document.querySelector("#modal-" + blurbID);
+
+        // show modal
+        modal.style.display = 'block';
+
+        // now add close button
+        modal.querySelector('.close').addEventListener('click', function(e) {
+          // onclick, close
+          modal.style.display = 'none';
+        });
+
+        // close modal if user clicks out of it
+        window.onclick = function (event) {
+          if (event.target == modal) {
+            modal.style.display = 'none';
+          }
+        };
+      });
+    });
+
+  </script>
   
 {% endblock %}

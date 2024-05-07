@@ -71,6 +71,7 @@ def home_page(request):
 
     return render(request, 'home.html', context)
 
+
 @login_required
 @require_POST
 def vote(request, pk):
@@ -92,6 +93,31 @@ def vote(request, pk):
                 blurb.upvotes.remove(request.user)
             blurb.downvotes.add(request.user)
     
+    return redirect(url)
+
+@login_required
+@require_POST
+def post_comment(request, pk):
+    url = request.POST.get('next', '/')
+    text = request.POST.get('input-text')
+    user = request.user
+    blurb = get_object_or_404(Blurb, pk=pk)
+
+    if text: # don't post empty comments
+        # TODO parse for tags here 
+        comment = Comment(author=user, blurb=blurb, text=text)
+        comment.save()
+
+    return redirect(url)
+
+@login_required
+@require_POST
+def delete_comment(request, pk):
+    # simple enough, I'll go back and add editing later (time permitting)
+    url = request.POST.get('next', '/')
+    comment = Comment.objects.get(pk=pk)
+    comment.delete()
+
     return redirect(url)
 
 @login_required
