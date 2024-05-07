@@ -13,6 +13,7 @@
   </header>
 
   <main>
+    
 
     {% for blurb in blurbs %}
     <article class="news-article" id="blurb-article-{{ blurb.id }}">
@@ -57,8 +58,17 @@
         <div id="modal-details">
           <img src="{{ blurb.outlet.logo.url }}" alt="{{ blurb.outlet.name }} logo">
           <a href="{{ blurb.outlet.page_url }}">{{ blurb.outlet.name }}</a>
-          <h2>{{ blurb.title }}</h2>
+          <h2>{{ blurb.title }}</h2><br>
+          <div class="tags-list"> <!-- first 5 tags for blurb, TODO display them inline -->
+              <p><strong>Tags: </strong></p>
+            {% for tag in blurb.tags.all|slice:"0:5" %}
+              <p>#{{ tag.name }} </p>
+            {% endfor %}
+          </div>
+          <br>
           <p>{{ blurb.description }}</p>
+          <br>
+          
         </div>
         
         <div class="comments">
@@ -70,8 +80,8 @@
             <textarea rows="4" cols="50" name="input-text"></textarea>
             <input type="submit" value="Post">
           </form>
-
           <br>
+
           <!-- all comments displayed here -->
           {% if not blurb.comments.all %}
             <p>No comments yet...</p>

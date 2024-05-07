@@ -104,7 +104,21 @@ def post_comment(request, pk):
     blurb = get_object_or_404(Blurb, pk=pk)
 
     if text: # don't post empty comments
-        # TODO parse for tags here 
+        # parsing comment for tags
+        arr = text.split(' ')
+        for word in arr:
+            if len(word) > 1 and word[0] == '#':
+                tagname = word[1:]
+                if Tag.objects.filter(name=tagname): # tag already exists, but no relationship with this blurb
+                    newtag = get_object_or_404(Tag, name=tagname)
+                    if newtag not in blurb.tags.all(): # only add new relationship if there isnt one already
+                        blurb.tags.add(newtag)
+                else: # new tag being created
+                    newtag = Tag(name=word[1:])
+                    newtag.save()
+                    blurb.tags.add(newtag)
+
+        # saving comment
         comment = Comment(author=user, blurb=blurb, text=text)
         comment.save()
 
@@ -116,6 +130,17 @@ def delete_comment(request, pk):
     # simple enough, I'll go back and add editing later (time permitting)
     url = request.POST.get('next', '/')
     comment = Comment.objects.get(pk=pk)
+
+    # delete all tags in comment
+    text = comment.text
+    arr = text.split(' ')
+    for word in arr:
+        if len(word) > 1 and word[0] == '#':
+            tagname = word[1:]
+            tag = get_object_or_404(Tag, name=tagname)
+            comment.blurb.tags.remove(tag)
+
+    # delete comment
     comment.delete()
 
     return redirect(url)

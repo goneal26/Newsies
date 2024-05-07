@@ -3,6 +3,13 @@ from PIL import Image # pillow for handling outlet image logo
 from django.contrib.auth.models import User
 from django.urls import reverse
 
+# model for tags! (super simple)
+class Tag(models.Model):
+	name = models.CharField(max_length=50, unique=True) # okay max length for tags for now
+
+	def __str__(self):
+		return f'#{self.name}'
+
 # model for news outlets
 class Outlet(models.Model):
 	rss_url = models.CharField(max_length=255) # RSS url
@@ -56,7 +63,7 @@ class Blurb(models.Model):
 
 	date = models.DateTimeField(default=None)
 	# date/time of publishing by the article
-	# NOTE: date field is in UTC, convert to proper timezone in view
+	# NOTE: date field is in UTC by default, may need to change
 
 	# upvotes and downvotes, relate to users
 	upvotes = models.ManyToManyField(
@@ -69,9 +76,11 @@ class Blurb(models.Model):
 		related_name='downvoted_blurbs', 
 		blank=True
 	)
-	
 
-	# TODO: look into using a custom manager (django docs say it's "preferred")
+	# tags
+	tags = models.ManyToManyField(Tag, blank=True)
+
+	# IFTIME: look into using a custom manager (django docs say it's "preferred")
 	# https://docs.djangoproject.com/en/5.0/ref/models/instances/#creating-objects
 	@classmethod
 	def create(cls, blurb_content, source):
@@ -103,7 +112,7 @@ class Blurb(models.Model):
 	def __str__(self):
 		return f'Blurb {self.title} from {self.outlet.name}'
 
-
+# model for user comments under blurbs
 class Comment(models.Model):
 	# user that posted the comment
 	author = models.ForeignKey(User, related_name='author', on_delete=models.CASCADE)
@@ -132,7 +141,8 @@ class Comment(models.Model):
 	def __str__(self):
 		return f'Comment from {self.author.username} on blurb {self.blurb}'
 
-
+# model for podcasts
+# (not super necessary but this way we can easily add more thru admin)
 class Podcast(models.Model):
 	url = models.CharField(max_length=255)
 	name = models.CharField(max_length=255)
