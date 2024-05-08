@@ -5,7 +5,6 @@ class FeaturesConfig(AppConfig):
     default_auto_field = 'django.db.models.BigAutoField'
     name = 'features'
 
-    # UNCOMMENT TO ACTIVATE RSS FETCHING
     # def ready(self): # added for RSS feed scheduling
     #     import os
     #     from . import jobs

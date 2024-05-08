@@ -1,8 +1,10 @@
 # rss feed fetching, with help
 # from https://stackoverflow.com/questions/70859953/how-to-update-my-django-database-with-rss-feed-every-x-minutes
+# also based on the scratch file I wrote
 
 import feedparser
 from datetime import datetime, timedelta
+from dateutil import parser
 from django.utils.timezone import make_aware
 import pytz
 from .models import Outlet, Blurb
@@ -28,17 +30,18 @@ class RSSFetcher:
 		
 		Return: a list of dictionary objects representing blurb entries. 
 		"""
-		now = datetime.now()
+		now = datetime.now().astimezone(pytz.utc)
 		time_range = timedelta(days=1)
 		feed = feedparser.parse(url)
 		blurb_list = [] # the list of dicts to be returned
 
 		for entry in feed.entries:
-			entry_date = datetime.strptime(entry.published, "%a, %d %b %Y %H:%M:%S %Z").astimezone(pytz.utc)
+			# NOTE updated to use timezone string parse function
+			entry_date = parser.parse(entry.published).astimezone(pytz.utc)
+			
+			if now - entry_date > time_range:
+				continue # skip blurbs from more than 24 hrs ago
 
-			# TODO: maybe add some better timezone formatting to keep things compatible
-			# i.e. not all rss feeds represent timezone (%Z) as 'GMT', some use a UTC offset instead
-			# I know this method at least works for the BBC though
 			blurb_content = {
 				'title': entry.title,
 				'description': entry.summary,
