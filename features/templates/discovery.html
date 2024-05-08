@@ -68,6 +68,17 @@
         <div id="modal-details">
           <img src="{{ blurb.outlet.logo.url }}" alt="{{ blurb.outlet.name }} logo">
           <a href="{{ blurb.outlet.page_url }}">{{ blurb.outlet.name }}</a>
+          <!-- follow button -->
+          <form method="POST" action="{% url 'follow' blurb.outlet.id %}">
+            {% csrf_token %}
+            <input type="hidden" name="next" value="{{ request.path }}"> <!-- for redirecting to current page's url after submit -->
+            {% if request.user in blurb.outlet.followers.all %}
+              <button type="submit">Unfollow Outlet</button>
+            {% else %}
+              <button type="submit">Follow Outlet</button>
+            {% endif %}
+          </form>
+          <br>
           <h2>{{ blurb.title }}</h2><br>
           <div class="tags-list"> <!-- first 5 tags for blurb, TODO display them inline -->
               <p><strong>Tags: </strong></p>
@@ -99,7 +110,11 @@
             {% for comment in blurb.comments.all %}
               <div class="comment">
                 <h2>Comments:</h2>
-                <h3>From <span style="color:red;">@{{ comment.author.username }}</span>:</h3>
+                {% if comment.author.profile.articles_read > 10 %}
+                  <h3>From <img src="{{ comment.author.profile.image.url }}" class="pfp-mini" alt="{{ comment.author.username }} pfp"><span style="color:red;">@{{ comment.author.username }}📖</span>:</h3> <!-- has badge -->
+                {% else %}
+                  <h3>From <img src="{{ comment.author.profile.image.url }}" class="pfp-mini" alt="{{ comment.author.username }} pfp"><span style="color:red;">@{{ comment.author.username }}</span>:</h3>
+                {% endif %}
                 <p>{{ comment.text }}</p>
                 <form action="{% url 'vote_comment' comment.id %}" method="POST">
                   <!-- upvote/downvote comment form -->

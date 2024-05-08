@@ -8,6 +8,9 @@ class Profile(models.Model):
     image = models.ImageField(default='images/default.png', upload_to='pfps') # TODO check that this is the right default image path 
     articles_read = models.PositiveIntegerField(default=0)
 
+    def has_badge(self):
+        return (self.articles_read > 10)
+
     def __str__(self):
     	return f'{self.user.username} profile (read {self.articles_read})'
 

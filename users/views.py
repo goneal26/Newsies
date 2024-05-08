@@ -47,7 +47,7 @@ def current_user_profile(request):
         )
 
         if user_form.is_valid() and profile_form.is_valid():
-            print(request.user.profile.image.url)
+            print(request.POST.get('image'))
             user_form.save()
             profile_form.save()
 
