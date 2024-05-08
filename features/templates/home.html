@@ -4,6 +4,8 @@
 
 {% block content %}
   <link rel="stylesheet" href='{% static "css/discovery.css" %}'>
+  <link rel="stylesheet" href="{% static 'css/blurb-details.css' %}">
+  
   <title>Home</title>
 
   <header>
@@ -24,6 +26,11 @@
         <div class="blurb-content">
           <h2>{{ blurb.title }}</h2>
           <p>{{ blurb.description }}</p>
+
+          <!-- click to view blurb detail/comment popup -->
+          <a href="#" class="view-comments" data-blurb-id="{{ blurb.id }}">View Comments</a>
+
+          <!-- external article link, now badge form -->
           <form action="{% url 'read_article' %}" method="POST" target="_blank">
             {% csrf_token %}
             <input type="hidden" name="next" value="{{ blurb.link }}">
@@ -42,12 +49,119 @@
         </form>
       </div>
     </article>
+
+    <!-- unique blurb modal -->
+    <div class="blurb-modal" id="modal-{{ blurb.id }}">
+      <div class="modal-content">
+        <span class="close">&times;</span>
+        <div id="modal-details">
+          <img src="{{ blurb.outlet.logo.url }}" alt="{{ blurb.outlet.name }} logo">
+          <a href="{{ blurb.outlet.page_url }}">{{ blurb.outlet.name }}</a>
+          <!-- follow button -->
+          <form method="POST" action="{% url 'follow' blurb.outlet.id %}">
+            {% csrf_token %}
+            <input type="hidden" name="next" value="{{ request.path }}"> <!-- for redirecting to current page's url after submit -->
+            {% if request.user in blurb.outlet.followers.all %}
+              <button type="submit">Unfollow Outlet</button>
+            {% else %}
+              <button type="submit">Follow Outlet</button>
+            {% endif %}
+          </form>
+          <br>
+          <h2>{{ blurb.title }}</h2><br>
+          <div class="tags-list"> <!-- first 5 tags for blurb, TODO display them inline -->
+              <p><strong>Tags: </strong></p>
+            {% for tag in blurb.tags.all|slice:"0:5" %}
+              <p>#{{ tag.name }} </p>
+            {% endfor %}
+          </div>
+          <br>
+          <p>{{ blurb.description }}</p>
+          <br>
+          
+        </div>
+        
+        <div class="comments"> <!-- comment form -->
+          <form method="POST" action="{% url 'post_comment' blurb.id %}">
+            {% csrf_token %}
+            <!-- IFTIME if time change to not reload the page, that way user sees their changes without closing modal -->
+            <input type="hidden" name="next" value="{{ request.path }}">
+            <p><label for="input-text">Post Comment:</label></p>
+            <textarea rows="4" cols="50" name="input-text"></textarea>
+            <input type="submit" value="Post">
+          </form>
+          <br>
+
+          <!-- all comments displayed here -->
+          {% if not blurb.comments.all %}
+            <p>No comments yet...</p>
+          {% else %}
+            {% for comment in blurb.comments.all %}
+              <div class="comment">
+                <h2>Comments:</h2>
+                {% if comment.author.profile.articles_read > 10 %}
+                  <h3>From <img src="{{ comment.author.profile.image.url }}" class="pfp-mini" alt="{{ comment.author.username }} pfp"><span style="color:red;">@{{ comment.author.username }}📖</span>:</h3> <!-- has badge -->
+                {% else %}
+                  <h3>From <img src="{{ comment.author.profile.image.url }}" class="pfp-mini" alt="{{ comment.author.username }} pfp"><span style="color:red;">@{{ comment.author.username }}</span>:</h3>
+                {% endif %}
+                <p>{{ comment.text }}</p>
+                <form action="{% url 'vote_comment' comment.id %}" method="POST">
+                  <!-- upvote/downvote comment form -->
+                  {% csrf_token %}
+                  <input type="hidden" name="next" value="{{ request.path }}">
+                  <button class="upvote-button" type='submit' name="upvote">+</button>
+                  <span class="vote-counter">{{ comment.net_votes }}</span>
+                  <button class="downvote-button" type='submit' name="downvote">-</button>
+                </form>
+                {% if comment.author == request.user %} <!-- editing/deleting -->
+                <form method="POST" action="{% url 'delete_comment' comment.id %}">
+                  {% csrf_token %}
+                  <input type="hidden" name="next" value="{{ request.path }}">
+                  <input type="submit" name="delete" value="Delete">
+                </form>
+                {% endif %}
+              </div>
+              <br>
+            {% endfor %}
+          {% endif %}
+        </div>
+      </div>
+    </div>
     {% endfor %}
 
   </main>
 
-  <div class="blurb-modal">
-    <!-- TODO: make this popup modal to view comments, etc -->
-  </div>
+  <script>
+    // get all "view comments" links
+    let links = document.querySelectorAll('a.view-comments'); 
+    links.forEach(function(link) {
+      link.addEventListener('click', function(e) { // for each link
+        e.preventDefault();
+
+        // get the ID for that link's blurb
+        let blurbID = link.getAttribute('data-blurb-id'); 
+
+        // now get the modal with that ID
+        let modal = document.querySelector("#modal-" + blurbID);
+
+        // show modal
+        modal.style.display = 'block';
+
+        // now add close button
+        modal.querySelector('.close').addEventListener('click', function(e) {
+          // onclick, close
+          modal.style.display = 'none';
+        });
+
+        // close modal if user clicks out of it
+        window.onclick = function (event) {
+          if (event.target == modal) {
+            modal.style.display = 'none';
+          }
+        };
+      });
+    });
+    
+  </script>
   
 {% endblock %}
