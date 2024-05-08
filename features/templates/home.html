@@ -5,7 +5,7 @@
 {% block content %}
   <link rel="stylesheet" href='{% static "css/discovery.css" %}'>
   <link rel="stylesheet" href="{% static 'css/blurb-details.css' %}">
-  
+
   <title>Home</title>
 
   <header>
@@ -34,7 +34,7 @@
           <form action="{% url 'read_article' %}" method="POST" target="_blank">
             {% csrf_token %}
             <input type="hidden" name="next" value="{{ blurb.link }}">
-            <input type="submit" value="Read More"> <!-- TODO style like old <a> tag -->
+            <input type="submit" value="Read Full Article"> <!-- TODO style like old <a> tag -->
           </form>
         </div>
       </div>
@@ -54,9 +54,12 @@
     <div class="blurb-modal" id="modal-{{ blurb.id }}">
       <div class="modal-content">
         <span class="close">&times;</span>
-        <div id="modal-details">
-          <img src="{{ blurb.outlet.logo.url }}" alt="{{ blurb.outlet.name }} logo">
+        <div class="modal-details">
+          <div class="modal-outlet">
+          <img src="{{ blurb.outlet.logo.url }}" alt="{{ blurb.outlet.name }} logo" class="detail-logo">
           <a href="{{ blurb.outlet.page_url }}">{{ blurb.outlet.name }}</a>
+          <br>
+          </div>
           <!-- follow button -->
           <form method="POST" action="{% url 'follow' blurb.outlet.id %}">
             {% csrf_token %}
@@ -82,13 +85,13 @@
         </div>
         
         <div class="comments"> <!-- comment form -->
-          <form method="POST" action="{% url 'post_comment' blurb.id %}">
+          <form method="POST" action="{% url 'post_comment' blurb.id %}" class="comment-form">
             {% csrf_token %}
             <!-- IFTIME if time change to not reload the page, that way user sees their changes without closing modal -->
             <input type="hidden" name="next" value="{{ request.path }}">
             <p><label for="input-text">Post Comment:</label></p>
             <textarea rows="4" cols="50" name="input-text"></textarea>
-            <input type="submit" value="Post">
+            <input type="submit" value="Post" class="post-comment-button">
           </form>
           <br>
 
@@ -96,9 +99,9 @@
           {% if not blurb.comments.all %}
             <p>No comments yet...</p>
           {% else %}
+          <h2>Comments:</h2>
             {% for comment in blurb.comments.all %}
               <div class="comment">
-                <h2>Comments:</h2>
                 {% if comment.author.profile.articles_read > 10 %}
                   <h3>From <img src="{{ comment.author.profile.image.url }}" class="pfp-mini" alt="{{ comment.author.username }} pfp"><span style="color:red;">@{{ comment.author.username }}📖</span>:</h3> <!-- has badge -->
                 {% else %}

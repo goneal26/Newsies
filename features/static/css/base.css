@@ -21,6 +21,8 @@ body {
   /* navbar scrolls with user */
   position: fixed;
   top: 0; 
+  display: flex;
+  justify-content: space-between;
 }
 
 /* navbar list items */
@@ -54,29 +56,35 @@ body {
   text-decoration: none !important;
 }
 
-/* Style the logo image */
 #navlogo {
-  height: 45px; /* Set your desired height */
-  display: inline-block;
-  vertical-align: middle;
+  font-family: 'Courier Prime';
+  font-size: 22px;
+  color: white;
+  display: inline-flex;
+  align-items: center;
+  flex-direction: row-reverse;
 }
-/* WIP, i'll put it back later -Tre */
+
+/* Style the logo image */
+#navlogo img {
+  max-width: 50px;
+}
+
 
 /* responsive navbar stuff */
 @media screen and (max-width: 600px) {
     .navbar {
         padding: 10px;
+        justify-content: center;
     }
 
     #navlogo {
-        height: 30px; /* Adjust logo height for smaller screens */
-        margin-right: 10px; /* Add margin for spacing */
+        display: none;
     }
 
-    .navbar ul {
-        flex-direction: row; /* Display links horizontally on small screens */
-        justify-content: flex-start; /* Align links to the left side */
-        padding: 0; /* Remove default padding */
+    div.navbar ul {
+      display: flex;
+      justify-content: center;
     }
 
     .navbar a, .navbar button.navbar-link {

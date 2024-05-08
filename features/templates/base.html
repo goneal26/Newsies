@@ -6,16 +6,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href='{% static "css/base.css" %}'>
+    <link href='https://fonts.googleapis.com/css?family=Courier Prime' rel='stylesheet'>
+    <!-- for courier for logo -->
 
   </head>
   <body>
-
-    <!-- TODO: maybe add a header for when on a larger screen with logo?
-      img is:
-      <img id="navlogo" src='{% static "images/newscap.png" %}' alt="Newsboy Cap Logo">
-    -->
-
-    
     <div class="navbar"> <!-- maybe refactor to use nav tag? not really necessary tho -->
       
       <ul>
@@ -36,6 +31,8 @@
           <li><a href="{% url 'register' %}">Register</a></li>
         {% endif %}
       </ul>
+
+      <h2 id="navlogo"><img src="{% static 'images/newscap.png' %}" alt="Newsies Cap Logo">Newsies</h2>
       
     </div>
     
@@ -47,7 +44,7 @@
   </div>
 
   <footer>
-    <p>© 2024 NewsFeed App</p>
+    <p>© 2024 Newsies</p>
   </footer>
 
   <script>
