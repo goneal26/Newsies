@@ -22,6 +22,7 @@ from users import views as user_views
 from django.contrib.auth import views as auth_views
 from django.conf.urls.static import static # for media folder
 from django.conf import settings
+from django.views.generic import RedirectView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -68,6 +69,9 @@ urlpatterns = [
 
     # url for incrementing articles read for badges
     path('read-article/', feature_views.read_article, name="read_article"),
+
+    # automatically redirect to login page
+    path('', RedirectView.as_view(url='/login/')),
 
 ]
 
