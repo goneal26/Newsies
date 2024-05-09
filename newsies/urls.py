@@ -73,9 +73,5 @@ urlpatterns = [
     # automatically redirect to login page
     path('', RedirectView.as_view(url='/login/')),
 
-]
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
-# TODO: revisit before deployment (shouldn't deploy with settings.DEBUG)
-# see https://docs.djangoproject.com/en/5.0/howto/static-files/deployment/
-if settings.DEBUG: # access to media folder VVV
-    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

@@ -126,7 +126,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/' # media folder stuff (outlet logo images, pfps, etc)
 
-STATIC_ROOT = os.path.join(BASE_DIR, '..', 'staticfiles')
+STATIC_ROOT = os.path.join(BASE_DIR, "static")
 STATIC_URL = '/static/'
 
 CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap4"
@@ -138,6 +138,6 @@ CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-LOGIN_REDIRECT_URL = 'discover' # TODO eh maybe diff one
+LOGIN_REDIRECT_URL = 'discover'
 
 LOGIN_URL = 'login'
