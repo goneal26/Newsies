@@ -15,6 +15,7 @@ class RSSFetcher:
 	def update_db():
 		""" Static method for updating blurbs in the database.
 		"""
+		print("Fetching rss feeds...")
 		for outlet in Outlet.objects.all():
 			feed_list = RSSFetcher.fetch_one(outlet.rss_url)
 			for feed_item in feed_list:
