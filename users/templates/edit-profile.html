@@ -4,12 +4,18 @@
 {% bootstrap_css %}
 {% bootstrap_javascript %}
 
+<style>
+  a:hover {
+    text-decoration: none; /* overrides the bootstrap styling */
+  }
+</style>
+
 <!-- Modal HTML -->
 <div id="editProfileModal" class="modal">
   <div class="modal-content">
     <span class="close">&times;</span>
     <h2>Edit Profile</h2>
-    <form method="POST" id="editProfileForm">
+    <form method="POST" id="editProfileForm" enctype="multipart/form-data">
       {% csrf_token %}
       {{ user_form|crispy }}
       {{ profile_form|crispy }}

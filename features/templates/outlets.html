@@ -19,7 +19,16 @@
 			<img src="{{ outlet.logo.url }}" alt="{{ outlet.name }}">
 			<h2>{{ outlet.name }}</h2>
 			<a href="{{ outlet.page_url }}" target="_blank">Link</a>
-			<!-- TODO follow button here -->
+			<!-- follow button -->
+			<form method="POST" action="{% url 'follow' outlet.id %}">
+				{% csrf_token %}
+				<input type="hidden" name="next" value="{{ request.path }}"> <!-- for redirecting to current page's url after submit -->
+				{% if outlet.has_follower %}
+					<button type="submit">Unfollow</button>
+				{% else %}
+					<button type="submit">Follow</button>
+				{% endif %}
+			</form>
 		</div>
 	</article>
 	{% endfor %}

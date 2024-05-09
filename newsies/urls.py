@@ -22,6 +22,7 @@ from users import views as user_views
 from django.contrib.auth import views as auth_views
 from django.conf.urls.static import static # for media folder
 from django.conf import settings
+from django.views.generic import RedirectView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -35,24 +36,42 @@ urlpatterns = [
     ),
     path( # log out
         'logout/', 
-        auth_views.LogoutView.as_view(next_page='login'), 
+        auth_views.LogoutView.as_view(next_page='login'),
         name='logout'
     ),
 
     # current-user profile page
     path('profile/', user_views.current_user_profile, name='profile'),
 
+    # outlet following
+    path('follow/<int:pk>/', feature_views.follow, name='follow'),
+
     # partnered outlets page
     path('outlets/', feature_views.outlets_page, name="outlets"),
 
+    # podcasts page
+    path('podcasts/', feature_views.podcasts_page, name="podcasts"),
+
+    # home page
+    path('home/', feature_views.home_page, name="home"),
+
     # discovery page urls
     path('discover/', feature_views.discovery_page, name="discover"),
-    path('discover/<int:pk>/upvote/', feature_views.upvote, name='upvote'),
-    path('discover/<int:pk>/downvote/', feature_views.downvote, name='downvote'),
 
-]
+    # upvoting and downvoting
+    path('vote/<int:pk>/', feature_views.vote, name="vote"),
 
-# TODO: revisit before deployment (shouldn't deploy with settings.DEBUG)
-# see https://docs.djangoproject.com/en/5.0/howto/static-files/deployment/
-if settings.DEBUG: # access to media folder VVV
-    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+    # posting and deleting comments
+    path('post-comment/<int:pk>/', feature_views.post_comment, name="post_comment"),
+    path('delete-comment/<int:pk>/', feature_views.delete_comment, name="delete_comment"),
+    # comment upvoting/downvoting
+    path('vote-comment/<int:pk>/', feature_views.vote_comment, name="vote_comment"),
+
+    # url for incrementing articles read for badges
+    path('read-article/', feature_views.read_article, name="read_article"),
+
+    # automatically redirect to login page
+    path('', RedirectView.as_view(url='/login/')),
+
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+

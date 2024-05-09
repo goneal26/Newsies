@@ -35,6 +35,8 @@ def register(request):
 
 @login_required
 def current_user_profile(request):
+    has_badge = request.user.profile.articles_read > 10 # 10 articles to get badge for now
+
     # TODO view for looking at profile pages other than your own
     if request.method == 'POST':
         user_form = UserUpdateForm(request.POST, instance=request.user)
@@ -45,7 +47,7 @@ def current_user_profile(request):
         )
 
         if user_form.is_valid() and profile_form.is_valid():
-            print(request.user.profile.image.url)
+            print(request.POST.get('image'))
             user_form.save()
             profile_form.save()
 
@@ -59,6 +61,7 @@ def current_user_profile(request):
     context = {
         'user_form': user_form,
         'profile_form': profile_form,
+        'has_badge': has_badge,
     }
 
     return render(request, 'profile.html', context)

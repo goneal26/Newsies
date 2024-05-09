@@ -1,6 +1,9 @@
 # Created by https://www.toptal.com/developers/gitignore/api/python,django,pycharm,sublimetext
 # Edit at https://www.toptal.com/developers/gitignore?templates=python,django,pycharm,sublimetext
 
+# Ignore dumped database files
+data.json
+
 ### Django ###
 *.log
 *.pot

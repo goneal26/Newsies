@@ -3,6 +3,13 @@ from PIL import Image # pillow for handling outlet image logo
 from django.contrib.auth.models import User
 from django.urls import reverse
 
+# model for tags! (super simple)
+class Tag(models.Model):
+	name = models.CharField(max_length=50, unique=True) # okay max length for tags for now
+
+	def __str__(self):
+		return f'#{self.name}'
+
 # model for news outlets
 class Outlet(models.Model):
 	rss_url = models.CharField(max_length=255) # RSS url
@@ -10,7 +17,6 @@ class Outlet(models.Model):
 	name = models.CharField(max_length=255) # outlet name
 	logo = models.ImageField(default='images/default.png', upload_to='outlet_logos') 
 	followers = models.ManyToManyField(User, blank=True)
-	# ^ manytomany should be right?
 
 	# override save function for saving logo images at a specific size
 	def save(self, *args, **kwargs):
@@ -41,7 +47,6 @@ class Outlet(models.Model):
 	def __str__(self):
 		return f'Outlet {self.name}'
 
-
 # model for blurb posts
 class Blurb(models.Model):
 	title = models.CharField(max_length=255) # article title
@@ -54,16 +59,16 @@ class Blurb(models.Model):
 	) # news outlet that "posted" the blurb (i.e. where it was fetched from)
 
 	link = models.CharField(max_length=255) 
-	# external url for article, I think 255 is plenty
+	# NOTE may need to increase max length later
 
 	date = models.DateTimeField(default=None)
 	# date/time of publishing by the article
-	# NOTE: date field is in UTC, convert to proper timezone in view
+	# NOTE: date field is in UTC by default, may need to change
 
 	# upvotes and downvotes, relate to users
 	upvotes = models.ManyToManyField(
 		User, 
-		related_name='upvoted_blurbs', # TODO: look into related name docs 
+		related_name='upvoted_blurbs',
 		blank=True
 	)
 	downvotes = models.ManyToManyField(
@@ -71,9 +76,11 @@ class Blurb(models.Model):
 		related_name='downvoted_blurbs', 
 		blank=True
 	)
-	
 
-	# TODO: look into using a custom manager (django docs say it's "preferred")
+	# tags
+	tags = models.ManyToManyField(Tag, blank=True)
+
+	# IFTIME: look into using a custom manager (django docs say it's "preferred")
 	# https://docs.djangoproject.com/en/5.0/ref/models/instances/#creating-objects
 	@classmethod
 	def create(cls, blurb_content, source):
@@ -102,12 +109,45 @@ class Blurb(models.Model):
 
 		return blurb
 
-	#def get_absolute_url(self): # url for a specific blurb
-	#return reverse('blurbs:blurb', kwargs={'pk': self.pk})
-	# TODO add abs urls to urls.py
-
 	def __str__(self):
 		return f'Blurb {self.title} from {self.outlet.name}'
 
+# model for user comments under blurbs
+class Comment(models.Model):
+	# user that posted the comment
+	author = models.ForeignKey(User, related_name='author', on_delete=models.CASCADE)
 
+	# the blurb the comment is under
+	blurb = models.ForeignKey(Blurb, related_name='comments', on_delete=models.CASCADE)
 
+	# comment text content (NOTE: parse to get tags later)
+	text = models.TextField(blank=True, default="")
+	
+	# upvotes and downvotes
+	upvotes = models.ManyToManyField(
+		User, 
+		blank=True,
+		related_name = "comment_upvotes",
+	)
+	downvotes = models.ManyToManyField(
+		User, 
+		blank=True,
+		related_name = "comment_downvotes"
+	)
+
+	def net_votes(self):
+		return self.upvotes.count() - self.downvotes.count()
+
+	def __str__(self):
+		return f'Comment from {self.author.username} on blurb {self.blurb}'
+
+# model for podcasts
+# (not super necessary but this way we can easily add more thru admin)
+class Podcast(models.Model):
+	url = models.CharField(max_length=255)
+	name = models.CharField(max_length=255)
+	author = models.CharField(max_length=255)
+	logo = models.ImageField(default=None, upload_to='podcast_logos')
+
+	def __str__(self):
+		return f'Podcast {self.name}'
