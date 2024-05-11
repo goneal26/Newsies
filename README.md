@@ -1,2 +1,2 @@
 # Newsies
- Team Churry Final Project
+ Team Churro Final Project
