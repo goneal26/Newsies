@@ -31,13 +31,13 @@ def register(request):
     else:
         form = UserRegisterForm()
     return render(request, 'register.html', {'form': form}) 
-    # TODO template path here
+    
 
 @login_required
 def current_user_profile(request):
     has_badge = request.user.profile.articles_read > 10 # 10 articles to get badge for now
 
-    # TODO view for looking at profile pages other than your own
+    
     if request.method == 'POST':
         user_form = UserUpdateForm(request.POST, instance=request.user)
         profile_form = ProfileUpdateForm(
@@ -53,7 +53,7 @@ def current_user_profile(request):
 
         messages.success(request, 'Your account has been updated!')
         return redirect('profile') # redirect back to pfp to display updates
-        # TODO else condition for form failure
+        
     else:
         user_form = UserUpdateForm(instance=request.user)
         profile_form = ProfileUpdateForm(instance=request.user.profile)

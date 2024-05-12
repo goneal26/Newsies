@@ -4,6 +4,9 @@
 # Ignore dumped database files
 data.json
 
+# ignore scratch files
+scratch_files/
+
 ### Django ###
 *.log
 *.pot
