@@ -10,7 +10,12 @@ Users can also post "#tags" in the comments underneath blurbs, allowing them to 
 
 You can visit the currently deployed build [here](https://goneal26.pythonanywhere.com/).
 
+## Team Churro
+This project was developed by Team Churro- Alexander and Tre. 
+
 ## Installation Instructions
+__Note__: The "main" branch of this project is the main development branch, for modifying and running the app/project locally. The "deployed" branch is slightly different, as it has some minor changes so that in can specifically run on PythonAnywhere. This branch has features that work on PythonAnywhere that may not work when running the project locally. These installation instructions are for installing and developing on the "main" branch.
+
 1. Prerequisites 
 
 Ensure that you have the following installed on your system:
