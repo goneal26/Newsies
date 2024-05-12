@@ -31,7 +31,6 @@ def register(request):
     else:
         form = UserRegisterForm()
     return render(request, 'register.html', {'form': form}) 
-    # TODO template path here
 
 @login_required
 def current_user_profile(request):
@@ -53,7 +52,6 @@ def current_user_profile(request):
 
         messages.success(request, 'Your account has been updated!')
         return redirect('profile') # redirect back to pfp to display updates
-        # TODO else condition for form failure
     else:
         user_form = UserUpdateForm(instance=request.user)
         profile_form = ProfileUpdateForm(instance=request.user.profile)

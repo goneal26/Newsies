@@ -1,5 +1,6 @@
 # SCRATCH FILE
 # for testing out RSS feed fetching
+# @Tre-ONeal
 
 # SOURCE: https://medium.com/@jonathanmondaut/fetching-data-from-rss-feeds-in-python-a-comprehensive-guide-a3dc86a5b7bc
 # I've modified things significantly from the source, this is just a scratch file for testing feed fetching

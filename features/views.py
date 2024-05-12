@@ -7,7 +7,9 @@ from django.db.models import Count, BooleanField, Case, When, Q
 from django.views.decorators.http import require_POST
 
 @login_required
-def outlets_page(request):
+def outlets_page(request): # @Tre-ONeal
+    # display all outlets on the outlets page
+
     all_outlets = Outlet.objects.order_by('-name').all().annotate(
         # annotate with True if the current user follows this outlet
         has_follower = Case(
@@ -25,7 +27,9 @@ def outlets_page(request):
 
 @login_required
 @require_POST
-def follow(request, pk):
+def follow(request, pk): # @Tre-ONeal
+    # follow an outlet- pk is the outlet's primary key identifier
+
     url = request.POST.get('next', '/')
     outlet = get_object_or_404(Outlet, pk=pk)
 
@@ -38,7 +42,9 @@ def follow(request, pk):
     return redirect(url)
 
 @login_required
-def podcasts_page(request):
+def podcasts_page(request): # @Tre-ONeal
+    # render the podcast page with all podcast objects
+
     all_podcasts = Podcast.objects.order_by('-name').all()
 
     context = {
@@ -49,23 +55,26 @@ def podcasts_page(request):
 
 @login_required
 def discovery_page(request):
+    # render all blurbs in discovery feed, handles searchbar form
+
     all_blurbs = Blurb.objects.select_related('outlet').annotate(
         vote_count =  Count('upvotes') - Count('downvotes')
     ).order_by('-vote_count', '-date').all() # should filter them by vote count
 
     filter_text = ""
 
-    # if searching
+    # if searching with search bar (@Tre-ONeal)
     if request.method == 'POST':
         query = request.POST.get('q')
         if query:
             filter_text = query
             if query[0] == '#' and len(query) > 1: # if searching for tag
                 tagname = query[1:].strip()
-                all_blurbs = all_blurbs.filter(tags__name=tagname)
+                all_blurbs = all_blurbs.filter(tags__name=tagname) # filter by tag name
             else: # searching for keyword
                 all_blurbs = all_blurbs.filter(
                     Q(title__icontains=query) | Q(description__icontains=query)
+                    # filter by keyword in title or description
                 )
     
     context = {
@@ -77,6 +86,8 @@ def discovery_page(request):
 
 @login_required
 def home_page(request):
+    # render blurbs only from outlets you follow
+
     followed_blurbs = Blurb.objects.filter(outlet__followers=request.user).annotate(
         vote_count =  Count('upvotes') - Count('downvotes')
     ).order_by('-date').all() # should filter them by vote count
@@ -91,6 +102,9 @@ def home_page(request):
 @login_required
 @require_POST
 def vote(request, pk):
+    # upvote/downvote a blurb identified by pk
+
+    # @Tre-ONeal
     url = request.POST.get('next', '/')
     blurb = get_object_or_404(Blurb, pk=pk)
 
@@ -114,6 +128,9 @@ def vote(request, pk):
 @login_required
 @require_POST
 def post_comment(request, pk):
+    # post a comment under the blurb identified by pk
+
+    # @Tre-ONeal
     url = request.POST.get('next', '/')
     text = request.POST.get('input-text')
     user = request.user
@@ -143,7 +160,10 @@ def post_comment(request, pk):
 @login_required
 @require_POST
 def delete_comment(request, pk):
-    # simple enough, I'll go back and add editing later (time permitting)
+    # delete the comment identified by pk
+
+    # @Tre-ONeal
+    # simple enough, I'll go back and add editing later (IFTIME)
     url = request.POST.get('next', '/')
     comment = Comment.objects.get(pk=pk)
 
@@ -164,6 +184,9 @@ def delete_comment(request, pk):
 @login_required
 @require_POST
 def vote_comment(request, pk):
+    # upvote/downvote comment identified by pk
+
+    # @Tre-ONeal
     url = request.POST.get('next', '/')
     comment = get_object_or_404(Comment, pk=pk)
 
@@ -187,6 +210,7 @@ def vote_comment(request, pk):
 @login_required
 @require_POST
 def read_article(request): # for counting a user clicks a "read more" link for reading badges
+    # @Tre-ONeal
     url = request.POST.get('next', '/')
     profile = request.user.profile
 

@@ -2,6 +2,8 @@
 # from https://stackoverflow.com/questions/70859953/how-to-update-my-django-database-with-rss-feed-every-x-minutes
 # also based on the scratch file I wrote
 
+# @Tre-ONeal
+
 import feedparser
 from datetime import datetime, timedelta
 from dateutil import parser

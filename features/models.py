@@ -4,6 +4,7 @@ from django.contrib.auth.models import User
 from django.urls import reverse
 
 # model for tags! (super simple)
+# @Tre-ONeal
 class Tag(models.Model):
 	name = models.CharField(max_length=50, unique=True) # okay max length for tags for now
 
@@ -11,6 +12,7 @@ class Tag(models.Model):
 		return f'#{self.name}'
 
 # model for news outlets
+# @Tre-ONeal
 class Outlet(models.Model):
 	rss_url = models.CharField(max_length=255) # RSS url
 	page_url = models.CharField(max_length=255, default="")
@@ -48,6 +50,7 @@ class Outlet(models.Model):
 		return f'Outlet {self.name}'
 
 # model for blurb posts
+# @Tre-ONeal
 class Blurb(models.Model):
 	title = models.CharField(max_length=255) # article title
 	description = models.TextField(blank=True, default="") # article description
@@ -123,7 +126,8 @@ class Comment(models.Model):
 	# comment text content (NOTE: parse to get tags later)
 	text = models.TextField(blank=True, default="")
 	
-	# upvotes and downvotes
+	# comment upvotes and downvotes
+	# @Tre-ONeal
 	upvotes = models.ManyToManyField(
 		User, 
 		blank=True,
@@ -143,6 +147,7 @@ class Comment(models.Model):
 
 # model for podcasts
 # (not super necessary but this way we can easily add more thru admin)
+# @Tre-ONeal
 class Podcast(models.Model):
 	url = models.CharField(max_length=255)
 	name = models.CharField(max_length=255)

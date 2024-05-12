@@ -5,6 +5,7 @@ class FeaturesConfig(AppConfig):
     default_auto_field = 'django.db.models.BigAutoField'
     name = 'features'
 
+    # @Tre-ONeal
     def ready(self): # added for RSS feed scheduling
         import os
         from . import jobs

@@ -9,6 +9,9 @@
   <title>Discovery</title>
 
   <style>
+  /* SEARCHBAR CSS
+  @Tre-ONeal
+  */
 
     /* Center the search bar horizontally and set a maximum width */
 .searchbar {
@@ -55,6 +58,9 @@
   </header>
 
   <main>
+    <!-- Searchbar component for filtering by tag/keyword
+      @Tre-ONeal
+    -->
     <div class="searchbar">
       <form method="POST">
         {% csrf_token %}
@@ -71,7 +77,6 @@
     {% for blurb in blurbs %}
     <article class="news-article" id="blurb-article-{{ blurb.id }}">
       <div class="news-container"> 
-        <!-- TODO refactor to news-container from blurb-container? -->
         <div class="blurb-outlet">
           <img src="{{ blurb.outlet.logo.url }}" alt="{{ blurb.outlet.name }} logo">
           <a href="{{ blurb.outlet.page_url }}">{{ blurb.outlet.name }}</a>
@@ -91,7 +96,7 @@
           <form action="{% url 'read_article' %}" method="POST" target="_blank">
             {% csrf_token %}
             <input type="hidden" name="next" value="{{ blurb.link }}">
-            <input type="submit" value="Read Full Article"> <!-- TODO style like old <a> tag -->
+            <input type="submit" value="Read Full Article"> 
           </form>
         </div>
       </div>
@@ -107,7 +112,8 @@
       </div>
     </article>
 
-    <!-- unique modal for each blurb -->
+    <!-- Blurb modal for displaying comments and other info
+          @Tre-ONeal -->
     <div class="blurb-modal" id="modal-{{ blurb.id }}">
       <div class="modal-content">
         <span class="close">&times;</span>
@@ -133,7 +139,7 @@
 
           <h2>{{ blurb.title }}</h2><br>
 
-          <div class="tags-list"> <!-- first 5 tags for blurb, TODO display them inline -->
+          <div class="tags-list"> 
               <p><strong>Tags: </strong></p>
             {% for tag in blurb.tags.all|slice:"0:5" %}
               <p>#{{ tag.name }} </p>
@@ -184,7 +190,7 @@
                 </form>
 
                 {% if comment.author == request.user %} 
-                <!-- editing/deleting -->
+                <!-- editing/deleting comment -->
                 <form method="POST" action="{% url 'delete_comment' comment.id %}">
                   {% csrf_token %}
                   <input type="hidden" name="next" value="{{ request.path }}">
@@ -204,6 +210,8 @@
   </main>  
 
   <script>
+    // javascript for displaying comment modal
+    // @Tre-ONeal
 
     // get all "view comments" links
     let links = document.querySelectorAll('a.view-comments'); 

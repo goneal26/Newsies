@@ -185,7 +185,7 @@ Then, if you want you can create a superuser, you can run the `python manage.py 
 Now just reload the website using the button in the __Web__ tab and navigate to the website URL (likely something like username.pythonanywhere.com) to see your deployed build of Newsies!
 
 ## Documentation
-Directories within the codebase may have other markdown documentation files, with the naming convention (component)-DOCS.md
+In the project's "features" and "users" apps you can find markdown files containing documentation for those apps/components (`features/FEATURE-DOCS.md` and `users/USER-DOCS.md`).
 
 Documentation is also described using docstrings and code comments throughout the source code itself.
 

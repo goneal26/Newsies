@@ -4,6 +4,11 @@
 
 {% block content %}
 
+<!--
+	Outlets page: HTML template for displaying all partnered outlets
+	@Tre-ONeal
+-->
+
 <link rel="stylesheet" href='{% static "css/discovery.css" %}'>
 <title>Outlets</title>
 
@@ -20,7 +25,7 @@
 			<h2>{{ outlet.name }}</h2>
 			<a href="{{ outlet.page_url }}" target="_blank">Link</a>
 			<!-- follow button -->
-			<form method="POST" action="{% url 'follow' outlet.id %}">
+			<form method="POST" action="{% url 'follow' outlet.id %}"> <!-- follow outlet form -->
 				{% csrf_token %}
 				<input type="hidden" name="next" value="{{ request.path }}"> <!-- for redirecting to current page's url after submit -->
 				{% if outlet.has_follower %}

@@ -17,7 +17,7 @@
     {% for blurb in blurbs %}
     <article class="news-article">
       <div class="news-container"> 
-        <!-- TODO refactor to news-container from blurb-container? -->
+        
         <div class="blurb-outlet">
           <img src="{{ blurb.outlet.logo.url }}" alt="{{ blurb.outlet.name }} logo">
           <a href="{{ blurb.outlet.page_url }}">{{ blurb.outlet.name }}</a>
@@ -37,7 +37,7 @@
           <form action="{% url 'read_article' %}" method="POST" target="_blank">
             {% csrf_token %}
             <input type="hidden" name="next" value="{{ blurb.link }}">
-            <input type="submit" value="Read Full Article"> <!-- TODO style like old <a> tag -->
+            <input type="submit" value="Read Full Article"> 
           </form>
         </div>
       </div>
@@ -53,7 +53,8 @@
       </div>
     </article>
 
-    <!-- unique blurb modal -->
+    <!-- Blurb modal for displaying comments and other info
+          @Tre-ONeal -->
     <div class="blurb-modal" id="modal-{{ blurb.id }}">
       <div class="modal-content">
         <span class="close">&times;</span>
@@ -75,7 +76,7 @@
           </form>
           <br>
           <h2>{{ blurb.title }}</h2><br>
-          <div class="tags-list"> <!-- first 5 tags for blurb, TODO display them inline -->
+          <div class="tags-list"> 
               <p><strong>Tags: </strong></p>
             {% for tag in blurb.tags.all|slice:"0:5" %}
               <p>#{{ tag.name }} </p>
@@ -138,6 +139,9 @@
   </main>
 
   <script>
+    // javascript for displaying comment modal
+    // @Tre-ONeal
+
     // get all "view comments" links
     let links = document.querySelectorAll('a.view-comments'); 
     links.forEach(function(link) {
