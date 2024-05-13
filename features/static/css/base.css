@@ -1,4 +1,12 @@
-/* base.css */
+/* 
+
+BASE CSS
+
+@Alexander-Aldama-Apodaca
+
+This defines the CSS for the navbar
+
+*/
 
 body, html {
   margin: 0;
@@ -25,7 +33,7 @@ body {
   justify-content: space-between;
 }
 
-/* navbar list items */
+/* Navbar list items */
 .navbar ul {
   list-style-type: none;
   margin: 0;
