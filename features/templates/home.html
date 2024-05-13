@@ -1,8 +1,14 @@
-
 {% extends 'base.html' %}
+
 {% load static %}
 
 {% block content %}
+
+<!--
+        Home feed: HTML template for the Home feed on the Home page
+        @Alexander-Aldama-Apodaca
+-->
+
   <link rel="stylesheet" href='{% static "css/discovery.css" %}'>
   <link rel="stylesheet" href="{% static 'css/blurb-details.css' %}">
 
@@ -19,11 +25,14 @@
       <div class="news-container"> 
         
         <div class="blurb-outlet">
+          <!-- Display the logo of the news outlet -->
           <img src="{{ blurb.outlet.logo.url }}" alt="{{ blurb.outlet.name }} logo">
+          <!-- Display a link to the full article -->
           <a href="{{ blurb.outlet.page_url }}">{{ blurb.outlet.name }}</a>
           <!-- may replace with just p tag later, or ill make a view for seeing one specific outlet. leave the <a> for now -->
         </div>
         <div class="blurb-content">
+          <!-- Display the title, description, and date of the blurb -->
           <h2>{{ blurb.title }}</h2>
           <p>{{ blurb.description }}</p>
 
