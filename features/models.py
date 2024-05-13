@@ -51,6 +51,7 @@ class Outlet(models.Model):
 
 # model for blurb posts
 # @Tre-ONeal
+# @Alexander-Aldama-Apodaca
 class Blurb(models.Model):
 	title = models.CharField(max_length=255) # article title
 	description = models.TextField(blank=True, default="") # article description
@@ -116,6 +117,7 @@ class Blurb(models.Model):
 		return f'Blurb {self.title} from {self.outlet.name}'
 
 # model for user comments under blurbs
+# @Alexander Aldama-Apodaca
 class Comment(models.Model):
 	# user that posted the comment
 	author = models.ForeignKey(User, related_name='author', on_delete=models.CASCADE)
