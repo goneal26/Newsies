@@ -54,7 +54,7 @@ def podcasts_page(request): # @Tre-ONeal
     return render(request, 'podcasts.html', context)
 
 @login_required
-def discovery_page(request):
+def discovery_page(request): # @Alexander-Aldama-Apodaca
     # render all blurbs in discovery feed, handles searchbar form
 
     all_blurbs = Blurb.objects.select_related('outlet').annotate(
@@ -85,7 +85,7 @@ def discovery_page(request):
     return render(request, 'discovery.html', context)
 
 @login_required
-def home_page(request):
+def home_page(request): # @Alexander-Aldama-Apodaca
     # render blurbs only from outlets you follow
 
     followed_blurbs = Blurb.objects.filter(outlet__followers=request.user).annotate(
