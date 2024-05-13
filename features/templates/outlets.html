@@ -25,7 +25,7 @@
 			<!-- Display the logo and name of the news outlet -->
 			<img src="{{ outlet.logo.url }}" alt="{{ outlet.name }}">
 			<h2>{{ outlet.name }}</h2>
-			<!-- Provide a link to the full article -->
+			<!-- Display a link to the full article -->
 			<a href="{{ outlet.page_url }}" target="_blank">Link</a>
 			<!-- follow button -->
 			<form method="POST" action="{% url 'follow' outlet.id %}"> <!-- follow outlet form -->
