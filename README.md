@@ -217,6 +217,12 @@ Documentation is also described using docstrings and code comments throughout th
  - https://apscheduler.readthedocs.io/en/3.x/userguide.html#code-examples
  	- Library documentation for scheduling RSS fetching
  	- As well as the Django documentation and the W3Schools django course if I needed to review something
+
+### General development resources (Alexander)
+
+Microsoft Copilot: 
+ - 
+
 ### Deployment resources (Tre)
  - https://help.pythonanywhere.com/pages/AlwaysOnTasks
  - https://coderwall.com/p/mvsoyg/django-dumpdata-and-loaddata
