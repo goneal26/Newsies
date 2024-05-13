@@ -1,5 +1,11 @@
 {% extends 'base.html' %}
 
+<!-- 
+  PROFILE HTML TEMPLATE
+  This is the template for the user profile
+  @Alexander-Aldama-Apodaca
+-->
+
 {% load static %}
 
 {% block content %}
@@ -10,6 +16,7 @@
   <div class="profile-container">
     <div class="profile-details">
       <img src="{{ user.profile.image.url }}" alt="Profile Image">
+      <!-- If the user has a badge, display it -->
       {% if has_badge %}
       <h1>{{ user.username }}📖</h1>
       {% else %}
