@@ -220,8 +220,34 @@ Documentation is also described using docstrings and code comments throughout th
 
 ### General development resources (Alexander)
 
-Microsoft Copilot: 
- - 
+Microsoft Copilot Prompts:
+ - Create a views page in Python using Django for rendering article blurbs in a newsfeed application.
+ - Create an HTML template for the discovery feed page of a newsfeed application.
+ - Generate a CSS file for the above HTML file. (Discovery Feed)
+ - Generate a JavaScript file for the above HTML file. (Discovery Feed)
+ - Create a views page in Python using Django for fetching the pages a user follows in a newsfeed application.
+ - Create an HTML template for the home feed page of a newsfeed application based on the following HTML template for the discovery feed page of the newsfeed application.
+ - Generate a CSS file for the above HTML file. (Home Feed)
+ - Generate a JavaScript file for the above HTML file. (Home Feed)
+ - Create an HTML template for the login page of a newsfeed application.
+ - Create a CSS file for the above HTML file for the login page.
+ - Create a basic HTML and CSS template for a navbar.
+ - How can I add a logo to this navbar?
+ - Create a CSS file for the above HTML file for the navigation bar.
+ - Create an HTML template for the news outlets page of a newsfeed application.
+ - Generate a CSS file for the above HTML file. (Outlets Page)
+ - Generate a JavaScript file for the above HTML file. (Outlets Page)
+ - Create an HTML template for the register page of a newsfeed application.
+ - Create an HTML template for the user profile page of a newsfeed application.
+ - Create a CSS file for the above HTML file for the user profile page.
+ - Modify the following HTML code for the discovery feed page of a newsfeed application to include a search bar that allows filtering
+ - Design a Django application that allows a user to create, save and edit posts additionally view and like posts from other users.
+ - Given the following HTML code, where should I add code to enable upvoting and downvoting?
+ - Please add the following HTML code to the HTML code I gave you in the first prompt to enable upvoting/downvoting
+ - Generate Django Python code for the comments section of a newsfeed application.
+ - Generate Django Python code for a badge system of a newsfeed application where users earn a badge after reading a certain number of articles.
+ - Generate Django Python code for a badge system of a newsfeed application that keeps track of the number of articles a user reads where users earn a badge after reading a certain number of articles.
+ - Write Django Python code implementing the steps you mentioned above.
 
 ### Deployment resources (Tre)
  - https://help.pythonanywhere.com/pages/AlwaysOnTasks
