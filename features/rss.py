@@ -20,9 +20,15 @@ class RSSFetcher:
 		print("Fetching rss feeds...")
 		for outlet in Outlet.objects.all():
 			feed_list = RSSFetcher.fetch_one(outlet.rss_url)
-			for feed_item in feed_list:
-				new_blurb = Blurb.create(feed_item, outlet)
-				new_blurb.save() # saves new blurb obj to db
+
+			if len(feed_list) == 0:
+				print('Error: RSS feed provider ', outlet.name, ' blocked this IP. No feed.')
+				continue 
+				# this would only happen if the outlet banned the server IP- not much we could do about that, sadly
+			else:
+				for feed_item in feed_list:
+					new_blurb = Blurb.create(feed_item, outlet)
+					new_blurb.save() # saves new blurb obj to db
 
 	@staticmethod
 	def fetch_one(url):
@@ -44,6 +50,9 @@ class RSSFetcher:
 			
 			if now - entry_date > time_range:
 				continue # skip blurbs from more than 24 hrs ago
+
+			if entry.bozo == True: # 403 error- hopefully the server isn't IP banned
+			    continue
 
 			blurb_content = {
 				'title': entry.title,
