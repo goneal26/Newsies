@@ -70,7 +70,7 @@ def discovery_page(request): # @Alexander-Aldama-Apodaca
 
     all_blurbs = Blurb.objects.select_related('outlet').annotate(
         vote_count =  Count('upvotes') - Count('downvotes')
-    ).order_by('-vote_count', '-date').all() # should filter them by vote count
+    ).order_by('-date', '-vote_count').all() # should filter them by vote count
 
     filter_text = ""
 

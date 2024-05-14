@@ -51,7 +51,7 @@ class RSSFetcher:
 			if now - entry_date > time_range:
 				continue # skip blurbs from more than 24 hrs ago
 
-			if entry.bozo == True: # 403 error- hopefully the server isn't IP banned
+			if hasattr(entry, 'bozo') and entry.bozo == True: # 403 error- hopefully the server isn't IP banned
 			    continue
 
 			blurb_content = {
