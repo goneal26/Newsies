@@ -8,14 +8,27 @@ from django.views.decorators.http import require_POST
 
 @login_required
 def outlets_page(request):
-    all_outlets = Outlet.objects.order_by('-name').all().annotate(
+    all_outlets = Outlet.objects.order_by('-name').annotate(
         # annotate with True if the current user follows this outlet
         has_follower = Case(
             When(followers=request.user, then=True),
             default=False,
             output_field=BooleanField()
         )
-    )
+    ).distinct()
+
+    all_outlets = list(all_outlets)
+
+    # solves issue with duplicates after following
+    prev_id = 0
+    for outlet in all_outlets:
+        if outlet.id == prev_id:
+            all_outlets.remove(outlet)
+
+        prev_id = outlet.id
+
+        # print(outlet, ' ', outlet.id, ' has follower: ', outlet.has_follower)
+    # print()
 
     context = {
         'outlets': all_outlets,

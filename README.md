@@ -170,7 +170,11 @@ This will output the name of the static files directory. Copy this path and retu
 
 7. Adding the RSS Fetching Task
 
-Go to the __Tasks__ tab and add a new *Scheduled Task*. Set its frequency to *Daily* at whatever time you wish the RSS fetching to run every day, and set the *Command* to the path to the `jobs.py` script (should be something like `/home/username/newsies/features/jobs.py`). Add a description if you would like.
+Go to the __Tasks__ tab and add a new *Scheduled Task*. Set its frequency to *Daily* at whatever time you wish the RSS fetching to run every day, and set the *Command* to the following:
+```
+source virtualenvwrapper.sh && workon venv && cd /home/goneal26/newsies && python3.10 manage.py fetch_blurbs
+```
+Add a description if you would like.
 
 If the task is not automatically enabled, enable it after entering in this information with the "play" button on the right.
 
